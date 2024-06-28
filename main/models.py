@@ -1,8 +1,8 @@
-from django.core.exceptions import ValidationError
 from django.db import models
+from django.contrib.auth.models import AbstractUser, Permission, Group
 
 
-#Добавление имен классов в котором учатся ученики
+# Добавление имен классов в котором учатся ученики
 class NameOfGrades(models.Model):
     choosing = models.CharField(max_length=20, blank=False, unique=True)
 
@@ -10,7 +10,7 @@ class NameOfGrades(models.Model):
         return self.choosing
 
 
-#Должности среди учащихся(Президент и тд)
+# Должности среди учащихся (Президент и тд)
 class AdministratorTypes(models.Model):
     choosing = models.CharField(max_length=20, blank=False, unique=True)
 
@@ -18,7 +18,7 @@ class AdministratorTypes(models.Model):
         return f"Тип должностного лица среди учащихся: {self.choosing}"
 
 
-#Имя олимпиады
+# Имя олимпиады
 class NamesOfOlympia(models.Model):
     choosing = models.CharField(max_length=20, blank=False, unique=True)
 
@@ -26,7 +26,7 @@ class NamesOfOlympia(models.Model):
         return self.choosing
 
 
-#Студенты
+# Студенты
 class Students(models.Model):
     CHOICES_GRADE = (
         ('fifth', '5'),
@@ -58,14 +58,19 @@ class ThanksNoteFromStudents(models.Model):
     text = models.TextField(blank=False)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
-#Олимпийцы
+
+# Олимпийцы
 class Olympians(models.Model):
     student = models.ForeignKey(Students, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"Олимпиец: {self.student.name} {self.student.sourname}"
 
 
-#Успешные студенты
+# Успешные студенты
 class SuccessfulStudents(models.Model):
     image = models.ImageField(upload_to='successful_students/', blank=False)
     content = models.TextField(blank=False)
@@ -81,19 +86,19 @@ class AppealToStudents(models.Model):
     text = models.TextField(blank=False)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
-#Выпускники
+
+# Выпускники
 class Graduates(models.Model):
-    # список
     name = models.CharField(max_length=25, blank=False)
     sourname = models.CharField(max_length=25, blank=False)
-
-    # год
     year = models.PositiveIntegerField()
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Выпускники {self.year} года"
+        return f"Выпускники {self.year} года: {self.name} {self.sourname}"
 
 
 # Благодарственное письмо от Выпускников
@@ -102,8 +107,11 @@ class ThanksNoteFromGraduates(models.Model):
     text = models.TextField(blank=False)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
-#Новости
+
+# Новости
 class News(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -111,8 +119,11 @@ class News(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
-#Галерея
+
+# Галерея
 class Gallery(models.Model):
     title = models.CharField(max_length=20, blank=True)
     content = models.TextField(max_length=200, blank=True)
@@ -120,14 +131,20 @@ class Gallery(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title or 'Без названия'
 
-#наши достижения
+
+# Наши достижения
 class OurAchievements(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to='achievements_images/', blank=False)
 
+    def __str__(self):
+        return self.content[:50]
 
-#учителя
+
+# Учителя
 class Teachers(models.Model):
     Experience = (
         ('Год', '1'),
@@ -142,8 +159,13 @@ class Teachers(models.Model):
     successes = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to='teachers_images/', blank=False)
 
+    def __str__(self):
+        return f"Учитель: {self.name} {self.surname} - Предмет: {self.subject}"
 
+
+# Форум
 class Forum(models.Model):
     pass
 
-
+    def __str__(self):
+        return f"Форум #{self.id}"
