@@ -167,7 +167,7 @@ class News(models.Model):
         verbose_name_plural = 'Новости / Жаңылыктар'
 
     def __str__(self):
-        return self.title
+        return f'Новость от / Жанылык {self.created_at.strftime("%Y-%m-%d")}'
 
 
 # Галерея
