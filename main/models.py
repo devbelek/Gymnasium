@@ -50,13 +50,9 @@ class Students(models.Model):
         ('tenth', '10'),
         ('eleventh', '11'),
     )
-    CHOICES_OLYMPIAN_OR_NO = (
-        ('yes', 'Yes'),
-        ('no', 'No'),
-    )
+    grade = models.CharField(max_length=50, choices=CHOICES_GRADE, blank=False, verbose_name='Класс')
     name = models.CharField(max_length=25, blank=False, verbose_name='Имя/Аты')
     surname = models.CharField(max_length=25, blank=False, verbose_name='Фамилия')
-    grade = models.CharField(max_length=50, choices=CHOICES_GRADE, blank=False, verbose_name='Класс')
     name_of_grade = models.ForeignKey(NameOfGrades, on_delete=models.CASCADE, verbose_name='Название класса/Классынын '
                                                                                            'аты')
     olympian_status = models.ForeignKey(NamesOfOlympia, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Олимпийц')
