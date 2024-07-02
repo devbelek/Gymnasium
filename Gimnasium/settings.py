@@ -120,16 +120,16 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = 'ky'
 
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Beeline-Business",
-    "site_header": "Beeline-Business",
+    "site_title": "Gimnasium",
+    "site_header": "Gimnasium",
     "site_logo_classes": "img-circle",
     "site_brand": "Админ-панель",
-    "welcome_sign": "Добро пожаловать в Beeline-Business",
-    "copyright": "Beeline-Business",
+    "welcome_sign": "Добро пожаловать в Gimnasium",
+    "copyright": "Gimnasium",
     "search_model": ["auth.User"],
     "topmenu_links": [
         {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"app": "Beeline-Business"},
+        {"app": "Gimnasium"},
         {"model": "auth.User"},
     ],
     "default_icon_parents": "fas fa-circle",
