@@ -3,6 +3,12 @@ from .models import *
 from django.contrib.auth.models import User
 
 
+class NamesOfOlympiaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NamesOfOlympia
+        fields = '__all__'
+
+
 class UserSerializers(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -30,10 +36,13 @@ class AdministratorTypesSerializer(serializers.ModelSerializer):
 
 class StudentsSerializer(serializers.ModelSerializer):
     user = UserSerializers()
+    name_of_grade = NameOfGradesSerializer(read_only=True)
+    olympian_status = NamesOfOlympiaSerializer(read_only=True)
+    administrator_status = AdministratorTypesSerializer(read_only=True)
 
     class Meta:
         model = Students
-        fields = '__all__'
+        fields = ('id', 'name', 'surname', 'user', 'grade', 'name_of_grade', 'olympian_status', 'administrator_status')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -48,16 +57,18 @@ class ThanksNoteFromStudentsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class NamesOfOlympiaSerializer(serializers.ModelSerializer):
+class StudentMinimalSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NamesOfOlympia
-        fields = '__all__'
+        model = Students
+        fields = ['name', 'surname']
 
 
 class OlympiansSerializer(serializers.ModelSerializer):
+    student = StudentMinimalSerializer(read_only=True)
+
     class Meta:
         model = Olympians
-        fields = '__all__'
+        fields = ('id', 'student')
 
 
 class SuccessfulStudentsSerializer(serializers.ModelSerializer):

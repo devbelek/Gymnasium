@@ -94,7 +94,7 @@ class Olympians(models.Model):
 
 # Успешные студенты
 class SuccessfulStudents(models.Model):
-    image = models.ImageField(upload_to='successful_students/%Y/%m/%d/', blank=False, verbose_name='Изображение/Сүрөт')
+    image = models.ImageField(upload_to='successful_students/%Y/%m/%d/', blank=False, verbose_name='Изображение/Сүрөт',)
     content = models.TextField(blank=False, verbose_name='Контент')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата загрузки/Чыгаруу күнү')
 
