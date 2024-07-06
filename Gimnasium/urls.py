@@ -7,6 +7,7 @@ from .yasg import urlpatterns as doc_urls
 
 
 urlpatterns = [
+    path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('i18n/', include('django.conf.urls.i18n')),

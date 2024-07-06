@@ -1,25 +1,51 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
+from .models import Feedback
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'avatar', 'birth_date', 'updated_at']
+
+
+class CommentSerializers(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = Comments
+        fields = ['id', 'author', 'text', 'created_at']
+
+
+class CommentReplySerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = CommentReply
+        fields = ['id', 'author', 'text', 'created_at']
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Like
+        fields = ['id', 'user']
+
+
+class FeedbackSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = '__all__'
 
 
 class NamesOfOlympiaSerializer(serializers.ModelSerializer):
     class Meta:
         model = NamesOfOlympia
         fields = '__all__'
-
-
-class UserSerializers(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
 
 
 class NameOfGradesSerializer(serializers.ModelSerializer):
@@ -35,20 +61,13 @@ class AdministratorTypesSerializer(serializers.ModelSerializer):
 
 
 class StudentsSerializer(serializers.ModelSerializer):
-    user = UserSerializers()
     name_of_grade = NameOfGradesSerializer(read_only=True)
     olympian_status = NamesOfOlympiaSerializer(read_only=True)
     administrator_status = AdministratorTypesSerializer(read_only=True)
 
     class Meta:
         model = Students
-        fields = ('id', 'name', 'surname', 'user', 'grade', 'name_of_grade', 'olympian_status', 'administrator_status')
-
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user = User.objects.create_user(**user_data)
-        student = Students.objects.create(user=user, **validated_data)
-        return student
+        fields = ['id', 'name', 'surname', 'grade', 'name_of_grade', 'olympian_status', 'administrator_status']
 
 
 class ThanksNoteFromStudentsSerializer(serializers.ModelSerializer):
@@ -68,12 +87,15 @@ class OlympiansSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Olympians
-        fields = ('id', 'student')
+        fields = ['id', 'student']
 
 
-class SuccessfulStudentsSerializer(serializers.ModelSerializer):
+class SuccessfulGraduatesSerializer(serializers.ModelSerializer):
+    comments = CommentSerializers(many=True, read_only=True)
+    author = serializers.ReadOnlyField(source='author.username')
+
     class Meta:
-        model = SuccessfulStudents
+        model = SuccessfulGraduates
         fields = '__all__'
 
 
@@ -96,6 +118,9 @@ class ThanksNoteFromGraduatesSerializer(serializers.ModelSerializer):
 
 
 class NewsSerializer(serializers.ModelSerializer):
+    comments = CommentSerializers(many=True, read_only=True)
+    author = serializers.ReadOnlyField(source='author.username')
+
     class Meta:
         model = News
         fields = '__all__'
@@ -108,6 +133,9 @@ class GallerySerializer(serializers.ModelSerializer):
 
 
 class OurAchievementsSerializer(serializers.ModelSerializer):
+    comments = CommentSerializers(many=True, read_only=True)
+    author = serializers.ReadOnlyField(source='author.username')
+
     class Meta:
         model = OurAchievements
         fields = '__all__'

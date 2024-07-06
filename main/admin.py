@@ -2,9 +2,15 @@ from django.contrib import admin
 from .models import *
 from modeltranslation.admin import TranslationAdmin
 
+admin.site.register(Feedback)
+admin.site.register(Comments)
+admin.site.register(CommentReply)
+admin.site.register(Like)
+admin.site.register(UserProfile)
 
-@admin.register(SuccessfulStudents)
-class SuccessfulStudentsAdmin(TranslationAdmin):
+
+@admin.register(SuccessfulGraduates)
+class SuccessfulGraduatesAdmin(TranslationAdmin):
     list_display = ("content",)
 
     class Media:
@@ -65,7 +71,7 @@ class ThanksNoteFromGraduatesAdmin(TranslationAdmin):
 
 @admin.register(News)
 class NewsAdmin(TranslationAdmin):
-    list_display = ("content", )
+    list_display = ("content",)
     fieldsets = [
         ('Русский перевод', {
             'fields': ['questions', 'answer']
@@ -127,21 +133,6 @@ class OurAchievementsAdmin(TranslationAdmin):
 @admin.register(Teachers)
 class TeachersAdmin(TranslationAdmin):
     list_display = ("name", "surname", "experience", "subject")
-
-    class Media:
-        js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
-            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
-            'modeltranslation/js/tabbed_translation_fields.js',
-        )
-        css = {
-            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
-        }
-
-
-@admin.register(Forum)
-class ForumAdmin(TranslationAdmin):
-    list_display = ("id",)
 
     class Media:
         js = (

@@ -32,7 +32,7 @@ class OlympiansTranslationOptions(TranslationOptions):
     pass
 
 
-@register(SuccessfulStudents)
+@register(SuccessfulGraduates)
 class SuccessfulStudentsTranslationOptions(TranslationOptions):
     fields = ('content',)
 
@@ -70,8 +70,3 @@ class OurAchievementsTranslationOptions(TranslationOptions):
 @register(Teachers)
 class TeachersTranslationOptions(TranslationOptions):
     fields = ('subject', 'education', 'successes')
-
-
-@register(Forum)
-class ForumTranslationOptions(TranslationOptions):
-    pass
