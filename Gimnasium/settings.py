@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'users',
     'rest_framework',
     'drf_yasg'
 ]
@@ -127,16 +128,16 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = 'ky'
 
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Gimnasium",
-    "site_header": "Gimnasium",
+    "site_title": "Гимназия №3",
+    "site_header": "Гимназия №3",
     "site_logo_classes": "img-circle",
     "site_brand": "Админ-панель",
-    "welcome_sign": "Добро пожаловать в Gimnasium",
-    "copyright": "Gimnasium",
+    "welcome_sign": "Добро пожаловать в админ-панель сайта Гимназии №3",
+    "copyright": "Гимназия №3",
     "search_model": ["auth.User"],
     "topmenu_links": [
         {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"app": "Gimnasium"},
+        {"app": "Гимназия №3"},
         {"model": "auth.User"},
     ],
     "default_icon_parents": "fas fa-circle",
@@ -156,10 +157,10 @@ JAZZMIN_SETTINGS = {
 }
 
 JAZZMIN_UI_TWEAKS = {
-    "navbar_small_text": False,
-    "footer_small_text": False,
-    "body_small_text": False,
-    "brand_small_text": False,
+    "navbar_small_text": True,
+    "footer_small_text": True,
+    "body_small_text": True,
+    "brand_small_text": True,
     "brand_colour": "navbar-dark",
     "accent": "accent-primary",
     "navbar": "navbar-white navbar-light",
@@ -169,11 +170,11 @@ JAZZMIN_UI_TWEAKS = {
     "footer_fixed": False,
     "sidebar_fixed": True,
     "sidebar": "sidebar-dark-warning",
-    "sidebar_nav_small_text": False,
+    "sidebar_nav_small_text": True,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": True,
+    "sidebar_nav_compact_style": True,
+    "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
     "theme": "default",
     "dark_mode_theme": None,
@@ -188,15 +189,13 @@ JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": True,
 }
 
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": [

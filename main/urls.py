@@ -4,26 +4,25 @@ from .views import *
 
 
 router = DefaultRouter()
-router.register(r'nameofgrades', NameOfGradesViewSet)
-router.register(r'administratortypes', AdministratorTypesViewSet)
+router.register(r'name_of_grades', NameOfGradesViewSet)
+router.register(r'administrator_types', AdministratorTypesViewSet)
 router.register(r'students', StudentsViewSet)
-router.register(r'thanksnotefromstudents', ThanksNoteFromStudentsViewSet)
-router.register(r'namesofolympia', NamesOfOlympiaViewSet)
-router.register(r'olympians', OlympiansViewSet)
-router.register(r'successfulstudents', SuccessfulGraduatesViewSet)
-router.register(r'appealtostudents', AppealToStudentsViewSet)
+router.register(r'thanks_note_from_students', ThanksNoteFromStudentsViewSet)
+router.register(r'names_of_olympia', NamesOfOlympiaViewSet)
+router.register(r'successful_graduates', SuccessfulGraduatesViewSet)
+router.register(r'appeal_to_students', AppealToStudentsViewSet)
 router.register(r'graduates', GraduatesViewSet)
-router.register(r'thanksnotefromgraduates', ThanksNoteFromGraduatesViewSet)
+router.register(r'thanks_note_from_graduates', ThanksNoteFromGraduatesViewSet)
 router.register(r'news', NewsViewSet)
 router.register(r'gallery', GalleryViewSet)
-router.register(r'ourachievements', OurAchievementsViewSet)
+router.register(r'our_achievements', OurAchievementsViewSet)
 router.register(r'teachers', TeachersViewSet)
 router.register(r'feedback', FeedbackViewSet)
-router.register(r'comments', CommentsViewSet)
-router.register(r'commentreplies', CommentReplyViewSet)
-router.register(r'likes', LikeViewSet)
+router.register(r'school_parliament', SchoolParliamentViewSet)
+router.register(r'gimnasium_class', GimnasiumClassViewSet)
+router.register(r'olympians', OlympiansViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('profile/', UserProfileDetail.as_view(), name='user-profile'),
+
 ]

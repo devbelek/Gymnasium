@@ -1,75 +1,20 @@
 from rest_framework import viewsets, status, generics
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
-
 from .models import *
 from .serializers import *
 
 
-class UserProfileDetail(generics.RetrieveUpdateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user.profile
+"""ОТ сюда изменения"""
+class SchoolParliamentViewSet(viewsets.ModelViewSet):
+    queryset = SchoolParliament.objects.all()
+    serializer_class = SchoolParliamentSerializer
 
 
-class CommentsViewSet(viewsets.ModelViewSet):
-    queryset = Comments.objects.all()
-    serializer_class = CommentSerializers
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-    def perform_destroy(self, instance):
-        if instance.author == self.request.user:
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "Вы не можете удалить этот комментарий"}, status=status.HTTP_403_FORBIDDEN)
-
-    def perform_update(self, serializer):
-        if self.get_object().author == self.request.user:
-            serializer.save()
-        else:
-            return Response({"message": "Вы не можете редактировать этот комментарий"}, status=status.HTTP_403_FORBIDDEN)
-
-
-class CommentReplyViewSet(viewsets.ModelViewSet):
-    queryset = CommentReply.objects.all()
-    serializer_class = CommentReplySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-    def perform_destroy(self, instance):
-        if instance.author == self.request.user:
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "Вы не можете удалить этот ответ"}, status=status.HTTP_403_FORBIDDEN)
-
-    def perform_update(self, serializer):
-        if self.get_object().author == self.request.user:
-            serializer.save()
-        else:
-            return Response({"message": "Вы не можете редактировать этот ответ"}, status=status.HTTP_403_FORBIDDEN)
-
-
-class LikeViewSet(viewsets.ModelViewSet):
-    queryset = Like.objects.all()
-    serializer_class = LikeSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def perform_destroy(self, instance):
-        if instance.user == self.request.user:
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "Вы не можете удалить этот лайк"}, status=status.HTTP_403_FORBIDDEN)
+class GimnasiumClassViewSet(viewsets.ModelViewSet):
+    queryset = GimnasiumClass.objects.all()
+    serializer_class = GimnasiumClassSerializer
+    """ДО СЮДА"""
 
 
 class FeedbackViewSet(viewsets.ModelViewSet):

@@ -1,12 +1,14 @@
 from django.contrib import admin
 from .models import *
 from modeltranslation.admin import TranslationAdmin
+from .utils import generate_csv_file, generate_excel_file
 
+admin.site.register(NameOfGrades)
 admin.site.register(Feedback)
-admin.site.register(Comments)
-admin.site.register(CommentReply)
-admin.site.register(Like)
-admin.site.register(UserProfile)
+admin.site.register(Graduates)
+admin.site.register(Olympians)
+admin.site.register(SchoolParliament)
+admin.site.register(GimnasiumClass)
 
 
 @admin.register(SuccessfulGraduates)
@@ -101,8 +103,19 @@ class GalleryAdmin(TranslationAdmin):
 
 
 @admin.register(Students)
-class StudentsAdmin(TranslationAdmin):
-    list_display = ("name", "surname", "grade", "olympian_status")
+class StudentsAdmin(admin.ModelAdmin):
+    list_display = ("name", "surname", "school_class")
+    actions = ['download_csv', 'download_excel']
+
+    def download_csv(self, request, queryset):
+        return generate_csv_file(queryset)
+
+    download_csv.short_description = 'Скачать список студентов в формате CSV'
+
+    def download_excel(self, request, queryset):
+        return generate_excel_file(queryset)
+
+    download_excel.short_description = 'Скачать список студентов в формате Excel'
 
     class Media:
         js = (
@@ -145,7 +158,6 @@ class TeachersAdmin(TranslationAdmin):
         }
 
 
-@admin.register(NameOfGrades)
 @admin.register(AdministratorTypes)
 @admin.register(NamesOfOlympia)
 class SimpleAdmin(admin.ModelAdmin):
