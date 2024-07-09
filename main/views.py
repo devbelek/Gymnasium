@@ -1,20 +1,22 @@
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, status, generics, filters
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
+from .filters import StudentsFilter, GraduatesFilter
 from .models import *
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
 
 
-"""ОТ сюда изменения"""
 class SchoolParliamentViewSet(viewsets.ModelViewSet):
     queryset = SchoolParliament.objects.all()
     serializer_class = SchoolParliamentSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
 class GimnasiumClassViewSet(viewsets.ModelViewSet):
     queryset = GimnasiumClass.objects.all()
     serializer_class = GimnasiumClassSerializer
-    """ДО СЮДА"""
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
 class FeedbackViewSet(viewsets.ModelViewSet):
@@ -23,33 +25,19 @@ class FeedbackViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
-class NameOfGradesViewSet(viewsets.ModelViewSet):
-    queryset = NameOfGrades.objects.all()
-    serializer_class = NameOfGradesSerializer
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
-
-
-class AdministratorTypesViewSet(viewsets.ModelViewSet):
-    queryset = AdministratorTypes.objects.all()
-    serializer_class = AdministratorTypesSerializer
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
-
-
 class StudentsViewSet(viewsets.ModelViewSet):
     queryset = Students.objects.all()
     serializer_class = StudentsSerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
+    filterset_fields = ['school_class__grade', 'school_class__parallel']
+    search_fields = ['name', 'surname', 'last_name']
+    ordering_fields = ['name', 'surname']
 
 
 class ThanksNoteFromStudentsViewSet(viewsets.ModelViewSet):
     queryset = ThanksNoteFromStudents.objects.all()
     serializer_class = ThanksNoteFromStudentsSerializer
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
-
-
-class NamesOfOlympiaViewSet(viewsets.ModelViewSet):
-    queryset = NamesOfOlympia.objects.all()
-    serializer_class = NamesOfOlympiaSerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
@@ -75,6 +63,8 @@ class GraduatesViewSet(viewsets.ModelViewSet):
     queryset = Graduates.objects.all()
     serializer_class = GraduatesSerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = GraduatesFilter
 
 
 class ThanksNoteFromGraduatesViewSet(viewsets.ModelViewSet):

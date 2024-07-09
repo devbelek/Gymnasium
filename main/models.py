@@ -1,86 +1,36 @@
+from datetime import datetime
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from rest_framework.exceptions import ValidationError
 
 
-# Добавление имен классов в котором учатся ученики
-class NameOfGrades(models.Model):
-    GRADE_CHOICES = (
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-        ('8', '8'),
-        ('9', '9'),
-        ('10', '10'),
-        ('11', '11'),
-    )
-    grade = models.CharField(max_length=10, choices=GRADE_CHOICES, verbose_name='Класс')
-    parallel = models.CharField(max_length=1, verbose_name='Параллель', help_text='Например, А, Б, В и т.д.')
-
-    def __str__(self):
-        return f"{self.grade}{self.parallel}"
-
-    def get_students(self):
-        return Students.objects.filter(school_class=self)
-
-    class Meta:
-        verbose_name = 'Добавить имени класса'
-        verbose_name_plural = 'Добавить имена классов'
-        unique_together = ('grade', 'parallel')
-
-
-# Должности среди учащихся (Президент и тд)
-class AdministratorTypes(models.Model):
-    choosing = models.CharField(max_length=50, blank=False, unique=True, verbose_name='Выбор')
-
-    class Meta:
-        verbose_name = 'Добавить должность среди учащихся'
-        verbose_name_plural = 'Добавить должность среди учащихся'
-
-    def __str__(self):
-        return f"Тип должностного лица среди учащихся: {self.choosing}"
-
-
 class SchoolParliament(models.Model):
     student = models.ManyToManyField('Students', blank=True, verbose_name='Ученик')
-    type_of_administrator = models.ForeignKey('AdministratorTypes', on_delete=models.SET_NULL, blank=True, null=True,
+    type_of_administrator = models.ForeignKey('secondary.AdministratorTypes', on_delete=models.SET_NULL, blank=True, null=True,
                                               verbose_name='Должность')
 
     class Meta:
         verbose_name = 'Парламент нашей гимназии'
         verbose_name_plural = 'Парламент нашей гимназии'
 
-    # def __str__(self):
-    #     return f"Студент: {self.student.name} - Должность: {self.type_of_administrator.choosing}"
     def __str__(self):
         students = ", ".join([student.name for student in self.student.all()])
         return f"Студент: {students} - Должность: {self.type_of_administrator.choosing}"
 
 
-# Имя олимпиады
-class NamesOfOlympia(models.Model):
-    choosing = models.CharField(max_length=20, blank=False, unique=True, verbose_name='Выбор')
-
-    class Meta:
-        verbose_name = 'Добавить название олимпиады'
-        verbose_name_plural = 'Добавить названия олимпиад'
-
-    def __str__(self):
-        return self.choosing
-
-
 # Студенты
 class Students(models.Model):
-    name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     surname = models.CharField(max_length=25, blank=False, verbose_name='Фамилия')
+    name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     last_name = models.CharField(max_length=25, blank=False, verbose_name='Отчество')
-    school_class = models.ForeignKey(NameOfGrades, on_delete=models.CASCADE, verbose_name='Класс')
+    school_class = models.ForeignKey('secondary.NameOfGrades', on_delete=models.CASCADE, verbose_name='Класс')
 
-    olympian_status = models.ForeignKey(NamesOfOlympia, on_delete=models.CASCADE, null=True, blank=True,
+    olympian_status = models.ForeignKey('secondary.NamesOfOlympia', on_delete=models.CASCADE, null=True, blank=True,
                                         verbose_name='Олимпиец')
-    administrator_status = models.ForeignKey(AdministratorTypes, on_delete=models.CASCADE, null=True, blank=True,
+    administrator_status = models.ForeignKey('secondary.AdministratorTypes', on_delete=models.CASCADE, null=True, blank=True,
                                              verbose_name='Позиция')
     classroom_teacher = models.ManyToManyField('Teachers', blank=False,
                                                verbose_name='Классный руководитель')
@@ -121,7 +71,7 @@ class Students(models.Model):
 
 class GimnasiumClass(models.Model):
     student = models.OneToOneField(Students, on_delete=models.CASCADE, blank=True, verbose_name='Ученик')
-    name_of_grade = models.ForeignKey(NameOfGrades, on_delete=models.CASCADE, blank=True, verbose_name='Класс')
+    name_of_grade = models.ForeignKey('secondary.NameOfGrades', on_delete=models.CASCADE, blank=True, verbose_name='Класс')
 
     def __str__(self):
         return f'Студент: {self.student.name} - Класс: {self.name_of_grade.grade} {self.name_of_grade.parallel}'
@@ -150,7 +100,7 @@ class ThanksNoteFromStudents(models.Model):
 # Олимпийцы
 class Olympians(models.Model):
     student = models.ForeignKey(Students, on_delete=models.CASCADE, verbose_name='Ученик')
-    name_of_olympia = models.ForeignKey(NamesOfOlympia, on_delete=models.SET_NULL, null=True, verbose_name='Предмет')
+    name_of_olympia = models.ForeignKey('secondary.NamesOfOlympia', on_delete=models.SET_NULL, null=True, verbose_name='Предмет')
 
     class Meta:
         verbose_name = 'Олимпийцы'
@@ -191,10 +141,14 @@ class AppealToStudents(models.Model):
 
 # Выпускники
 class Graduates(models.Model):
-    name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     surname = models.CharField(max_length=25, blank=False, verbose_name='Фамилия')
+    name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     last_name = models.CharField(max_length=25, blank=False, verbose_name='Отчество')
-    year = models.PositiveIntegerField(verbose_name='Год')
+    graduate_year = datetime.now().year
+    year = models.PositiveIntegerField(
+        verbose_name='Год',
+        validators=[MinValueValidator(2000), MaxValueValidator(graduate_year)]
+    )
 
     class Meta:
         verbose_name = 'Выпускники'
@@ -272,8 +226,8 @@ class Teachers(models.Model):
         ('От пяти лет', '5+'),
         ('От десяти лет', '10+'),
     )
-    name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     surname = models.CharField(max_length=25, blank=False, verbose_name='Фамилия')
+    name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     last_name = models.CharField(max_length=25, blank=False, verbose_name='Отчество')
     experience = models.CharField(max_length=50, choices=Experience, verbose_name='Опыт')
     subject = models.CharField(max_length=20, verbose_name='Предмет')

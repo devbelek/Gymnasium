@@ -16,6 +16,7 @@ class UserProfile(models.Model):
         verbose_name = "Личные кабинеты пользователей"
         verbose_name_plural = "Личные кабинеты пользователей"
 
+
 class Comment(models.Model):
     our_achievements = models.ForeignKey(
         'main.OurAchievements', on_delete=models.CASCADE,

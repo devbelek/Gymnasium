@@ -9,8 +9,9 @@ from .yasg import urlpatterns as doc_urls
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
-    path('', include('users.urls')),
+    path('api/', include('main.urls')),
+    path('secondary/', include('secondary.urls')),
+    path('users/', include('users.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 

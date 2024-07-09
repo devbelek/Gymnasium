@@ -4,11 +4,8 @@ from .views import *
 
 
 router = DefaultRouter()
-router.register(r'name_of_grades', NameOfGradesViewSet)
-router.register(r'administrator_types', AdministratorTypesViewSet)
 router.register(r'students', StudentsViewSet)
 router.register(r'thanks_note_from_students', ThanksNoteFromStudentsViewSet)
-router.register(r'names_of_olympia', NamesOfOlympiaViewSet)
 router.register(r'successful_graduates', SuccessfulGraduatesViewSet)
 router.register(r'appeal_to_students', AppealToStudentsViewSet)
 router.register(r'graduates', GraduatesViewSet)

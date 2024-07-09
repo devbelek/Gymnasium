@@ -3,7 +3,7 @@ from .models import *
 from modeltranslation.admin import TranslationAdmin
 from .utils import generate_csv_file, generate_excel_file
 
-admin.site.register(NameOfGrades)
+
 admin.site.register(Feedback)
 admin.site.register(Graduates)
 admin.site.register(Olympians)
@@ -157,8 +157,3 @@ class TeachersAdmin(TranslationAdmin):
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
 
-
-@admin.register(AdministratorTypes)
-@admin.register(NamesOfOlympia)
-class SimpleAdmin(admin.ModelAdmin):
-    list_display = ("choosing",)

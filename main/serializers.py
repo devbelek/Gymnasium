@@ -2,11 +2,19 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
 from users.serializers import CommentSerializers
+from secondary.serializers import NameOfGradesSerializer, NamesOfOlympiaSerializer, AdministratorTypesSerializer
+from secondary.models import NameOfGrades, NamesOfOlympia, AdministratorTypes
+
+
+class StudentMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Students
+        fields = ['name', 'surname']
 
 
 class SchoolParliamentSerializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(queryset=Students.objects.all(), many=True)
-    type_of_administrator = serializers.PrimaryKeyRelatedField(queryset=AdministratorTypes.objects.all())
+    student = StudentMinimalSerializer(read_only=True, many=True)
+    type_of_administrator = AdministratorTypesSerializer(read_only=True)
 
     class Meta:
         model = SchoolParliament
@@ -14,17 +22,17 @@ class SchoolParliamentSerializer(serializers.ModelSerializer):
 
 
 class GimnasiumClassSerializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(queryset=Students.objects.all())
-    name_of_grade = serializers.PrimaryKeyRelatedField(queryset=NameOfGrades.objects.all())
+    student = StudentMinimalSerializer(read_only=True)
+    name_of_grade = NameOfGradesSerializer(read_only=True)
 
     class Meta:
         model = GimnasiumClass
-        fields = ('id', 'student', 'name_of_grade')
+        fields = ('student', 'name_of_grade')
 
 
 class OlympiansSerializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(queryset=Students.objects.all())
-    name_of_olympia = serializers.PrimaryKeyRelatedField(queryset=NamesOfOlympia.objects.all())
+    student = StudentMinimalSerializer(read_only=True)
+    name_of_olympia = NamesOfOlympiaSerializer(read_only=True)
 
     class Meta:
         model = Olympians
@@ -35,24 +43,6 @@ class FeedbackSerializers(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = '__all__'
-
-
-class NamesOfOlympiaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NamesOfOlympia
-        fields = ['choosing']
-
-
-class NameOfGradesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NameOfGrades
-        fields = ['grade', 'parallel']
-
-
-class AdministratorTypesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AdministratorTypes
-        fields = ['choosing']
 
 
 class TeachersSerializer(serializers.ModelSerializer):
@@ -76,12 +66,6 @@ class ThanksNoteFromStudentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ThanksNoteFromStudents
         fields = ['title', 'text', 'updated_at']
-
-
-class StudentMinimalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Students
-        fields = ['name', 'surname']
 
 
 class GraduatesSerializer(serializers.ModelSerializer):

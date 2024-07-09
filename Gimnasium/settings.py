@@ -33,7 +33,9 @@ INSTALLED_APPS = [
     'main',
     'users',
     'rest_framework',
-    'drf_yasg'
+    'drf_yasg',
+    'django_filters',
+    'secondary',
 ]
 
 SITE_ID = 1
@@ -108,7 +110,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
 
@@ -125,7 +126,6 @@ LOCALE_PATHS = [
 
 MODELTRANSLATION_LANGUAGES = ('ky', 'ru')
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ky'
-
 
 JAZZMIN_SETTINGS = {
     "site_title": "Гимназия №3",
@@ -189,7 +189,6 @@ JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": True,
 }
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -204,4 +203,10 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         "AUTH_PARAMS": {"access_type": "online"}
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKEND': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }

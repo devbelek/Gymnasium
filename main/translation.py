@@ -2,25 +2,6 @@ from modeltranslation.translator import register, TranslationOptions
 from .models import *
 
 
-@register(Students)
-class StudentsTranslationOptions(TranslationOptions):
-    fields = ('olympian_status',)
-
-
-@register(NameOfGrades)
-class NameOfGradesTranslationOptions(TranslationOptions):
-    pass
-
-
-@register(AdministratorTypes)
-class AdministratorTypesTranslationOptions(TranslationOptions):
-    pass
-
-
-@register(NamesOfOlympia)
-class NamesOfOlympiaTranslationOptions(TranslationOptions):
-    fields = ('choosing',)
-
 
 @register(ThanksNoteFromStudents)
 class ThanksNoteFromStudentsTranslationOptions(TranslationOptions):
