@@ -209,12 +209,15 @@ ADMINS = [
 
 MANAGERS = ADMINS
 
+LOGIN_REDIRECT_URL = '/users/profile/'
+LOGOUT_REDIRECT_URL = '/accounts/'
+
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_RATE_LIMITS = {
-    'login_failed': '5/5m',  # 5 попыток за 5 минут
-    'login': '20/1h',  # 20 логинов за 1 час
-    'signup': '5/5m',  # 5 регистраций за 5 минут
+    'login_failed': '5/5m',
+    'login': '20/1h',
+    'signup': '5/5m',
 }
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -232,3 +235,5 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
+
+SOCIALACCOUNT_ADAPTER = 'users.signals.MySocialAccountAdapter'
