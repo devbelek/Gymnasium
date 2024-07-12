@@ -18,7 +18,7 @@ class SchoolParliament(models.Model):
 
     def __str__(self):
         students = ", ".join([student.name for student in self.student.all()])
-        return f"Студент: {students} - Должность: {self.type_of_administrator.choosing}"
+        return f"Ученик: {students} - Должность: {self.type_of_administrator.choosing}"
 
 
 # Студенты
@@ -74,7 +74,7 @@ class GimnasiumClass(models.Model):
     name_of_grade = models.ForeignKey('secondary.NameOfGrades', on_delete=models.CASCADE, blank=True, verbose_name='Класс')
 
     def __str__(self):
-        return f'Студент: {self.student.name} - Класс: {self.name_of_grade.grade} {self.name_of_grade.parallel}'
+        return f'Ученик: {self.student.name} - Класс: {self.name_of_grade.grade} {self.name_of_grade.parallel}'
 
     class Meta:
         verbose_name = 'Классы Гимназии №3'
@@ -222,9 +222,9 @@ class OurAchievements(models.Model):
 # Учителя
 class Teachers(models.Model):
     Experience = (
-        ('Год', '1'),
-        ('От пяти лет', '5+'),
-        ('От десяти лет', '10+'),
+        ('Год', 'Более 1 года'),
+        ('От пяти лет', 'Более 5 лет'),
+        ('От десяти лет', 'Более 15 лет'),
     )
     surname = models.CharField(max_length=25, blank=False, verbose_name='Фамилия')
     name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
@@ -244,7 +244,7 @@ class Teachers(models.Model):
 
 
 # Контакты
-class Feedback(models.Model):
+class Contacts(models.Model):
     phone_number = models.CharField(max_length=30, blank=False, unique=True, null=True,
                                     verbose_name='Номер телефона(+996)')
     address = models.CharField(max_length=200, blank=False, unique=True, null=True, verbose_name='Адрес')

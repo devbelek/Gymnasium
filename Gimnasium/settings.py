@@ -1,15 +1,16 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m79pr=z3v^v0e8f@y^(tb1ak%=ga^0813me9=5c!^iigx_nkj6'
-
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -193,7 +194,28 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+ADMINS = [
+    ('admin', 'belekasrarov10@gmail.com'),
+]
+
+MANAGERS = ADMINS
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_RATE_LIMITS = {
+    'login_failed': '5/5m',  # 5 попыток за 5 минут
+    'login': '20/1h',  # 20 логинов за 1 час
+    'signup': '5/5m',  # 5 регистраций за 5 минут
+}
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

@@ -6,8 +6,7 @@ from rest_framework.exceptions import ValidationError
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.ImageField(upload_to='avatars/', blank=True, verbose_name='Аватар')
-    birth_date = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    about = models.CharField(max_length=100, blank=True, null=True, verbose_name='О себе')
 
     def __str__(self):
         return self.user.username

@@ -39,9 +39,9 @@ class OlympiansSerializer(serializers.ModelSerializer):
         fields = ('id', 'student', 'name_of_olympia')
 
 
-class FeedbackSerializers(serializers.ModelSerializer):
+class ContactsSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Feedback
+        model = Contacts
         fields = '__all__'
 
 

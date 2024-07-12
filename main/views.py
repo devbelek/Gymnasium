@@ -1,6 +1,5 @@
-from rest_framework import viewsets, status, generics, filters
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticatedOrReadOnly, IsAuthenticated
-from rest_framework.response import Response
+from rest_framework import viewsets, filters
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 from .filters import StudentsFilter, GraduatesFilter
 from .models import *
 from .serializers import *
@@ -19,9 +18,9 @@ class GimnasiumClassViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
-class FeedbackViewSet(viewsets.ModelViewSet):
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializers
+class ContactsViewSet(viewsets.ModelViewSet):
+    queryset = Contacts.objects.all()
+    serializer_class = ContactsSerializers
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
