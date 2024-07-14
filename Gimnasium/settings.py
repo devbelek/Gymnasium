@@ -6,17 +6,13 @@ from dotenv import load_dotenv
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
 
 INSTALLED_APPS = [
     'allauth',
@@ -58,7 +54,7 @@ ROOT_URLCONF = 'Gimnasium.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +120,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOCALE_PATHS = [
     BASE_DIR / 'locale/',
 ]
+
+LANGUAGES = (
+    ('ky', 'Kyrgyzstan'),
+    ('ru', 'Russia'),
+)
 
 MODELTRANSLATION_LANGUAGES = ('ky', 'ru')
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ky'
@@ -213,7 +214,7 @@ LOGIN_REDIRECT_URL = '/users/profile/'
 LOGOUT_REDIRECT_URL = '/accounts/'
 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_RATE_LIMITS = {
     'login_failed': '5/5m',
     'login': '20/1h',

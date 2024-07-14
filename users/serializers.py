@@ -8,7 +8,7 @@ class UserProfileSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        exclude = ['id']
 
 
 class CommentSerializers(serializers.ModelSerializer):

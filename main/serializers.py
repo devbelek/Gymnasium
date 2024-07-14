@@ -42,13 +42,13 @@ class OlympiansSerializer(serializers.ModelSerializer):
 class ContactsSerializers(serializers.ModelSerializer):
     class Meta:
         model = Contacts
-        fields = '__all__'
+        exclude = ['id']
 
 
 class TeachersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teachers
-        fields = ['name', 'surname', 'last_name']
+        exclude = ['id']
 
 
 class StudentsSerializer(serializers.ModelSerializer):
@@ -65,13 +65,13 @@ class StudentsSerializer(serializers.ModelSerializer):
 class ThanksNoteFromStudentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ThanksNoteFromStudents
-        fields = ['title', 'text', 'updated_at']
+        exclude = ['id']
 
 
 class GraduatesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graduates
-        fields = ['name', 'surname', 'last_name', 'year']
+        exclude = ['id']
 
 
 class SuccessfulGraduatesSerializer(serializers.ModelSerializer):
@@ -80,19 +80,19 @@ class SuccessfulGraduatesSerializer(serializers.ModelSerializer):
     graduate = GraduatesSerializer(read_only=True)
     class Meta:
         model = SuccessfulGraduates
-        fields = ['image', 'graduate', 'content', 'comments', 'author']
+        exclude = ['id']
 
 
 class AppealToStudentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppealToStudents
-        fields = ['title', 'text', 'updated_at']
+        exclude = ['id']
 
 
 class ThanksNoteFromGraduatesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ThanksNoteFromGraduates
-        fields = ['title', 'text', 'updated_at']
+        exclude = ['id']
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -101,13 +101,13 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ['image', 'content', 'created_at', 'updated_at', 'comments', 'author']
+        exclude = ['id']
 
 
 class GallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Gallery
-        fields = ['title', 'content', 'image', 'created_at', 'updated_at']
+        exclude = ['id']
 
 
 class OurAchievementsSerializer(serializers.ModelSerializer):
@@ -116,4 +116,4 @@ class OurAchievementsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OurAchievements
-        fields = '__all__'
+        exclude = ['id']

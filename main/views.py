@@ -30,6 +30,7 @@ class StudentsViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filterset_fields = ['school_class__grade', 'school_class__parallel']
+    filterset_class = StudentsFilter
     search_fields = ['name', 'surname', 'last_name']
     ordering_fields = ['name', 'surname']
 

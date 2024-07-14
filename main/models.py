@@ -193,10 +193,7 @@ class News(models.Model):
 # Галерея
 class Gallery(models.Model):
     image = models.ImageField(upload_to='gallery/%Y/%m/%d/', blank=False, verbose_name='Изображение')
-    title = models.CharField(max_length=50, blank=False, verbose_name='Заголовок')
     content = models.TextField(blank=False, verbose_name='Контент')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата загрузки')
 
     class Meta:
         verbose_name = 'Галерея'

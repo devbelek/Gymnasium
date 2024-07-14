@@ -4,16 +4,16 @@ from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia
 class NameOfGradesSerializer(serializers.ModelSerializer):
     class Meta:
         model = NameOfGrades
-        fields = ['grade', 'parallel']
+        exclude = ['id']
 
 
 class AdministratorTypesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdministratorTypes
-        fields = ['choosing']
+        exclude = ['id']
 
 
 class NamesOfOlympiaSerializer(serializers.ModelSerializer):
     class Meta:
         model = NamesOfOlympia
-        fields = ['choosing']
+        exclude = ['id']
