@@ -37,6 +37,7 @@ uritemplate = "4.1.1"
 urllib3 = "2.2.2"
 setuptools = "^70.3.0"
 python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.9"
 
 
 [build-system]
