@@ -12,6 +12,12 @@ class StudentMinimalSerializer(serializers.ModelSerializer):
         fields = ['name', 'surname']
 
 
+class TeacherMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teachers
+        fields = ['name', 'surname', 'last_name']
+
+
 class SchoolParliamentSerializer(serializers.ModelSerializer):
     student = StudentMinimalSerializer(read_only=True, many=True)
     type_of_administrator = AdministratorTypesSerializer(read_only=True)
@@ -55,7 +61,8 @@ class StudentsSerializer(serializers.ModelSerializer):
     school_class = NameOfGradesSerializer(read_only=True)
     olympian_status = NamesOfOlympiaSerializer(read_only=True)
     administrator_status = AdministratorTypesSerializer(read_only=True)
-    classroom_teacher = TeachersSerializer(many=True, read_only=True)
+    classroom_teacher = TeacherMinimalSerializer(many=True, read_only=True)
+
 
     class Meta:
         model = Students
