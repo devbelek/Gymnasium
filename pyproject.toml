@@ -38,6 +38,8 @@ urllib3 = "2.2.2"
 setuptools = "^70.3.0"
 python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.9"
+pytesseract = "^0.3.10"
+pdf2image = "^1.17.0"
 
 
 [build-system]

@@ -6,12 +6,17 @@ from .utils import generate_csv_file, generate_excel_file
 
 admin.site.register(Contacts)
 admin.site.register(Graduates)
-admin.site.register(Olympians)
 admin.site.register(ThanksNoteFromGraduates)
 admin.site.register(ThanksNoteFromStudents)
 admin.site.register(SchoolParliament)
 admin.site.register(GimnasiumClass)
 admin.site.register(Gallery)
+
+
+@admin.register(Olympians)
+class OlympiansAdmin(admin.ModelAdmin):
+    readonly_fields = ['student', 'name_of_olympia']
+
 
 @admin.register(SuccessfulGraduates)
 class SuccessfulGraduatesAdmin(TranslationAdmin):

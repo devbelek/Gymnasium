@@ -4,6 +4,10 @@ from .filters import StudentsFilter, GraduatesFilter
 from .models import *
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
+from django.db.models.functions import Lower
+import logging
+logger = logging.getLogger('main')
 
 
 class SchoolParliamentViewSet(viewsets.ModelViewSet):
@@ -33,7 +37,7 @@ class StudentsViewSet(viewsets.ModelViewSet):
     filterset_class = StudentsFilter
     search_fields = ['name', 'surname', 'last_name']
     ordering_fields = ['name', 'surname']
-
+    logger.debug('working!')
 
 class ThanksNoteFromStudentsViewSet(viewsets.ModelViewSet):
     queryset = ThanksNoteFromStudents.objects.all()

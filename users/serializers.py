@@ -1,6 +1,23 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile, Comment, CommentReply, Like
+from .models import UserProfile, Comment, CommentReply, Like, ConfirmedDonation, Donation
+
+
+class DonationSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Donation
+        fields = ['id', 'user', 'amount', 'date', 'confirmation_file', 'comment', 'is_verified']
+        read_only_fields = ['user', 'is_verified']
+
+class ConfirmedDonationSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    amount = serializers.ReadOnlyField(source='donation.amount')
+
+    class Meta:
+        model = ConfirmedDonation
+        fields = ['id', 'user', 'amount', 'date', 'comment']
 
 
 class UserProfileSerializers(serializers.ModelSerializer):

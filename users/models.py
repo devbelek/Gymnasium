@@ -73,3 +73,40 @@ class Like(models.Model):
 
     def __str__(self):
         return f'Лайк от {self.user.username} на комментарий {self.comment.id}'
+
+
+class Donation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations', verbose_name='Пользователь')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма(сом)')
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
+    comment = models.CharField(max_length=300, blank=True, null=True)
+    confirmation_file = models.FileField(upload_to='checks/%Y/%m/%d/', blank=False, verbose_name='Квитанция о переводе')
+    is_verified = models.BooleanField(default=False, verbose_name='Статус подтверждения')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.amount} - {self.date}"
+
+    class Meta:
+        verbose_name = "Не подтвержденные переводы средств"
+        verbose_name_plural = "Не подтвержденные переводы средств"
+
+
+class ConfirmedDonation(models.Model):
+    donation = models.OneToOneField(Donation, on_delete=models.CASCADE, related_name='confirmed_donation', verbose_name='Перевод')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='confirmed_donations', verbose_name='Пользователь')
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
+    comment = models.CharField(max_length=255, blank=True, null=True, verbose_name='Комментарий')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.donation.amount} - {self.date}"
+
+    @property
+    def amount(self):
+        return self.donation.amount
+
+    class Meta:
+        verbose_name = "Подтвержденные переводы средств"
+        verbose_name_plural = "Подтвержденные переводы средств"
+
+
+

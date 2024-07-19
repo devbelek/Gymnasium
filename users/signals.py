@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-from .models import UserProfile
+from .models import UserProfile, Donation, ConfirmedDonation
 
 
 @receiver(post_save, sender=User)
@@ -27,3 +27,13 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
                     sociallogin.connect(request, email_address.user)
             except EmailAddress.DoesNotExist:
                 pass
+
+
+@receiver(post_save, sender=Donation)
+def create_confirmed_donation(sender, instance, created, **kwargs):
+    if instance.is_verified and not hasattr(instance, 'confirmed_donation'):
+        ConfirmedDonation.objects.create(
+            donation=instance,
+            user=instance.user,
+            comment=instance.comment
+        )

@@ -5,7 +5,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Gimnasium",
+        title="Гимназия документация",
         default_version='v1',
         description="For first usage",
         license=openapi.License(name="BSD License"),
