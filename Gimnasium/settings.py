@@ -300,9 +300,9 @@ CORS_ALLOW_HEADERS = [
     'access-control-request-headers',
     'access-control-request-method',
 ]
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:3000',
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://gimnasium.onrender.com',
+]
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
