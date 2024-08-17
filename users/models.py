@@ -82,6 +82,7 @@ class Donation(models.Model):
     comment = models.CharField(max_length=300, blank=True, null=True)
     confirmation_file = models.FileField(upload_to='checks/%Y/%m/%d/', blank=False, verbose_name='Квитанция о переводе')
     is_verified = models.BooleanField(default=False, verbose_name='Статус подтверждения')
+    verification_message = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.amount} - {self.date}"

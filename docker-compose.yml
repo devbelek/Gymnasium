@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - REDIS_URL=redis://redis:6379/0
+      - TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
+    volumes:
+      - .:/app
+      - ./media:/app/media
+
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_HOST=${DATABASE_HOST}
+      - POSTGRES_PORT=${DATABASE_PORT}
+    ports:
+      - "5433:5433"
+
+  redis:
+    image: redis:6
+
+  celery:
+    build: .
+    command: celery -A Gimnasium worker -l info
+    depends_on:
+      - web
+      - db
+      - redis
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - REDIS_URL=redis://redis:6379/0
+      - TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
+    volumes:
+      - .:/app
+      - ./media:/app/media
+
+volumes:
+  postgres_data:
+  media_data:
