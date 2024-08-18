@@ -199,10 +199,6 @@ class Gallery(models.Model):
         verbose_name = 'Галерея'
         verbose_name_plural = 'Галерея'
 
-    def __str__(self):
-        return self.title or 'Без названия'
-
-
 # Наши достижения
 class OurAchievements(models.Model):
     content = models.TextField(blank=False, verbose_name='Контент')
