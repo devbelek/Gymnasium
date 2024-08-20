@@ -18,6 +18,13 @@ logger = logging.getLogger(__name__)
 
 os.environ['TESSDATA_PREFIX'] = '/usr/share/tesseract-ocr/tessdata'
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+from celery.signals import worker_ready
+
+
+@worker_ready.connect
+def at_start(sender, **kwargs):
+    print("Celery worker готов!")
+    logger.info("Celery worker работает!")
 
 
 def preprocess_image(image_path):
@@ -75,7 +82,8 @@ def verify_receipt_content(text, donation_amount):
         logger.debug(f"Проверяемый текст: {text}")
         text_lower = re.sub(r'[^\w\s.,]', '', text.lower())
         keywords = ['чек', 'реквизит', 'итого', 'сумма', 'оплата', 'кассовый', 'приход', 'услуга', 'квитанция',
-                    'успешно', 'комиссия', 'источник средств', 'оплачено', 'статус', 'получатель', 'отправитель', 'тип операции']
+                    'успешно', 'комиссия', 'источник средств', 'оплачено', 'статус', 'получатель', 'отправитель',
+                    'тип операции']
         found_keywords = [keyword for keyword in keywords if keyword in text_lower]
         logger.debug(f"Найденные ключевые слова: {found_keywords}")
         if not found_keywords:
@@ -94,7 +102,8 @@ def verify_receipt_content(text, donation_amount):
         else:
             return False, "Сумма платежа не найдена"
 
-        date_match = re.search(r'\d{2}[./]\d{2}[./]\d{4}', text) or re.search(r'\d{2}[./]\d{2}[./]\d{4}\s*\d{2}:\d{2}', text)
+        date_match = re.search(r'\d{2}[./]\d{2}[./]\d{4}', text) or re.search(r'\d{2}[./]\d{2}[./]\d{4}\s*\d{2}:\d{2}',
+                                                                              text)
         if not date_match:
             return False, "Дата не найдена"
 
