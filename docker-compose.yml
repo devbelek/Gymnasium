@@ -39,7 +39,7 @@ services:
 
   celery:
     build: .
-    command: celery -A Gimnasium worker -l info
+    command: celery -A Gimnasium worker --pool=solo -l info
     depends_on:
       - web
     environment:
