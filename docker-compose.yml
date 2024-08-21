@@ -18,7 +18,7 @@ services:
       - TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
     volumes:
       - .:/app
-      - ./media:/app/media
+      - ./media:/app/media:rw
 
 
 #  db:
@@ -39,7 +39,7 @@ services:
 
   celery:
     build: .
-    command: celery -A Gimnasium worker --pool=solo -l info
+    command: celery -A Gimnasium worker --pool=solo -l debug
     depends_on:
       - web
     environment:
@@ -55,7 +55,7 @@ services:
       - TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
     volumes:
       - .:/app
-      - ./media:/app/media
+      - ./media:/app/media:rw
 
 volumes:
   media_data:

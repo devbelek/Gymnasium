@@ -29,7 +29,7 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir -p /app/media && \
-    chmod -R 755 /app/media
+    chmod -R 777 /app/media
 
 EXPOSE 8000
 
