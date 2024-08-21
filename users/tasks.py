@@ -18,13 +18,6 @@ logger = logging.getLogger(__name__)
 
 os.environ['TESSDATA_PREFIX'] = '/usr/share/tesseract-ocr/tessdata'
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
-from celery.signals import worker_ready
-
-
-@worker_ready.connect
-def at_start(sender, **kwargs):
-    print("Celery worker готов!")
-    logger.info("Celery worker работает!")
 
 
 def preprocess_image(image_path):

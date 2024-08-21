@@ -54,7 +54,7 @@ class ContactsSerializers(serializers.ModelSerializer):
 class TeachersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teachers
-        exclude = ['id']
+        fields = '__all__'
 
 
 class StudentsSerializer(serializers.ModelSerializer):
@@ -62,7 +62,6 @@ class StudentsSerializer(serializers.ModelSerializer):
     olympian_status = NamesOfOlympiaSerializer(read_only=True)
     administrator_status = AdministratorTypesSerializer(read_only=True)
     classroom_teacher = TeacherMinimalSerializer(many=True, read_only=True)
-
 
     class Meta:
         model = Students
