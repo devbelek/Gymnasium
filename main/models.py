@@ -149,6 +149,9 @@ class Graduates(models.Model):
         verbose_name='Год',
         validators=[MinValueValidator(2000), MaxValueValidator(graduate_year)]
     )
+    ort = models.PositiveSmallIntegerField(verbose_name='ОРТ')
+    kl_rukovoditel = models.ForeignKey('Teachers', on_delete=models.CASCADE, related_name='graduates_teachers',
+                                       verbose_name='Классный руководитель')
 
     class Meta:
         verbose_name = 'Выпускники'
@@ -198,6 +201,7 @@ class Gallery(models.Model):
     class Meta:
         verbose_name = 'Галерея'
         verbose_name_plural = 'Галерея'
+
 
 # Наши достижения
 class OurAchievements(models.Model):

@@ -84,6 +84,7 @@ class SuccessfulGraduatesSerializer(serializers.ModelSerializer):
     comments = CommentSerializers(many=True, read_only=True)
     author = serializers.ReadOnlyField(source='author.username')
     graduate = GraduatesSerializer(read_only=True)
+
     class Meta:
         model = SuccessfulGraduates
         exclude = ['id']
