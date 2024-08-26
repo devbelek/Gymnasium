@@ -1,6 +1,9 @@
+from rest_framework.views import APIView
+
 from .models import UserProfile, Comment, CommentReply, Like, Donation, ConfirmedDonation
-from .serializers import UserProfileSerializers, CommentSerializers, CommentReplySerializers, LikeSerializers
-from rest_framework import viewsets, generics, status
+from .serializers import UserProfileSerializers, CommentSerializers, CommentReplySerializers, LikeSerializers, \
+    RegisterSerializer
+from rest_framework import viewsets, generics, status, permissions
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from .models import Donation, ConfirmedDonation
@@ -10,6 +13,17 @@ import logging
 import os
 
 logger = logging.getLogger(__name__)
+
+
+class RegisterView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Пользователь успешно создан!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DonationsViewSet(viewsets.ModelViewSet):

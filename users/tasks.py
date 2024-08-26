@@ -85,10 +85,9 @@ def verify_receipt_content(text, donation_amount):
         amounts = re.findall(r'\d+[.,]\d{2}(?:\s*сом)?', text_lower)
         logger.debug(f"Найденные суммы: {amounts}")
         if amounts:
-            # Убираем лишние символы и преобразуем в float
             amounts = [float(re.sub(r'[^\d.,]', '', amount).replace(',', '.')) for amount in amounts]
             logger.debug(f"Суммы после преобразования: {amounts}")
-            if any(abs(donation_amount - amount) < 0.01 for amount in amounts):  # Допустимая погрешность
+            if any(abs(donation_amount - amount) < 0.01 for amount in amounts):
                 return True, "Чек прошел проверку"
             else:
                 return False, "Сумма в чеке не соответствует введенной сумме"

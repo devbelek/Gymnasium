@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'main',
     'users',
     'rest_framework',
+    # 'rest_framework.authtoken',
+    'djoser',
     'drf_yasg',
     'django_filters',
     'secondary',
@@ -264,6 +266,19 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+
 }
 
 SOCIALACCOUNT_ADAPTER = 'users.signals.MySocialAccountAdapter'

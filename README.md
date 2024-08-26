@@ -1,3 +1,5 @@
+
+
 django-filter: 
 
     Фильтрация "Выпускники": /api/graduates/?year=2000 
