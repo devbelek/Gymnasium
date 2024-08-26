@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from .models import UserProfile, Comment, CommentReply, Like, Donation, ConfirmedDonation
 from .serializers import UserProfileSerializers, CommentSerializers, CommentReplySerializers, LikeSerializers, \
     RegisterSerializer
-from rest_framework import viewsets, generics, status, permissions
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework import viewsets, generics, status
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from .models import Donation, ConfirmedDonation
 from .serializers import DonationSerializer, ConfirmedDonationSerializer
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class RegisterView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = RegisterSerializer(data=request.data)
@@ -29,13 +29,20 @@ class RegisterView(APIView):
 class DonationsViewSet(viewsets.ModelViewSet):
     queryset = Donation.objects.all().order_by('-date')
     serializer_class = DonationSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        donation = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"message": "Чек принят на проверку"}, status=status.HTTP_202_ACCEPTED, headers=headers)
 
     def perform_create(self, serializer):
         donation = serializer.save(user=self.request.user)
         if donation.confirmation_file:
             verify_receipt.delay(donation.id)
-        return Response({"message": "Чек принят на проверку"}, status=status.HTTP_202_ACCEPTED)
+        return donation
 
 
 class ConfirmedDonationViewSet(viewsets.ModelViewSet):
