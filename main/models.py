@@ -23,6 +23,8 @@ class SchoolParliament(models.Model):
 
 # Студенты
 class Students(models.Model):
+    image = models.ImageField(upload_to='students_images/%Y/%m/%d/', blank=False,
+                              verbose_name='Фото студента')
     surname = models.CharField(max_length=25, blank=False, verbose_name='Фамилия')
     name = models.CharField(max_length=25, blank=False, verbose_name='Имя')
     last_name = models.CharField(max_length=25, blank=False, verbose_name='Отчество')
