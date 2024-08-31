@@ -4,16 +4,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from .yasg import urlpatterns as doc_urls
+# from debug_toolbar.toolbar import debug_toolbar_urls
 
-
-urlpatterns = [
+urlpatterns = ([
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('main.urls')),
     path('secondary/', include('secondary.urls')),
     path('users/', include('users.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
-]
+])
+               # + debug_toolbar_urls()
 
 urlpatterns += doc_urls
 

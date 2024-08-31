@@ -15,7 +15,8 @@ admin.site.register(Gallery)
 
 @admin.register(Olympians)
 class OlympiansAdmin(admin.ModelAdmin):
-    readonly_fields = ['student', 'name_of_olympia']
+    list_display = ('student', 'name_of_olympia')
+    fields = ('student', 'name_of_olympia')
 
 
 @admin.register(SuccessfulGraduates)
@@ -35,7 +36,7 @@ class SuccessfulGraduatesAdmin(TranslationAdmin):
 
 @admin.register(AppealToStudents)
 class AppealToStudentsAdmin(TranslationAdmin):
-    list_display = ("title", "text")
+    list_display = ("title", "content")
 
     class Media:
         js = (

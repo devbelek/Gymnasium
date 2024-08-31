@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia
 
+
 class NameOfGradesSerializer(serializers.ModelSerializer):
     class Meta:
         model = NameOfGrades

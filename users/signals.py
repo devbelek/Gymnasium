@@ -4,9 +4,8 @@ from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from .models import UserProfile, Donation, ConfirmedDonation
-import logging
+from loguru import logger
 
-logger = logging.getLogger(__name__)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -34,7 +33,7 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
 @receiver(post_save, sender=Donation)
 def create_confirmed_donation(sender, instance, created, **kwargs):
     if instance.is_verified and not hasattr(instance, 'confirmed_donation'):
-        logger.info(f"Creating ConfirmedDonation for Donation ID: {instance.id}")
+        logger.info(f"Создание подтверждённого пожертвования для ID: {instance.id}")
         ConfirmedDonation.objects.create(
             donation=instance,
             user=instance.user,

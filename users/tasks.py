@@ -1,23 +1,22 @@
-import os
 import pytesseract
 from PIL import Image
 import pdf2image
 import re
-from celery import shared_task
-from django.conf import settings
 from .models import Donation
 import cv2
 import easyocr
-import logging
 from django.db import transaction
+from loguru import logger
+import os
+import datetime
+from celery import shared_task
+from django.conf import settings
 
-logger = logging.getLogger(__name__)
+os.environ['TESSDATA_PREFIX'] = '/opt/homebrew/share/tessdata'
+pytesseract.pytesseract.tesseract_cmd = r'/opt/homebrew/bin/tesseract'
 
-# os.environ['TESSDATA_PREFIX'] = '/opt/homebrew/share/tessdata'
-# pytesseract.pytesseract.tesseract_cmd = r'/opt/homebrew/bin/tesseract'
-
-os.environ['TESSDATA_PREFIX'] = '/usr/share/tesseract-ocr/tessdata'
-pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+# os.environ['TESSDATA_PREFIX'] = '/usr/share/tesseract-ocr/tessdata'
+# pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 
 def preprocess_image(image_path):
@@ -133,6 +132,8 @@ def verify_receipt(donation_id):
             logger.info(f"Результат проверки: valid={is_valid}, message={message}")
 
             donation.is_verified = is_valid
+            if not is_valid:
+                logger.error(f"Проверка чека не пройдена для пожертвования ID: {donation_id}. Сообщение: {message}")
             logger.info(f"Перед сохранением: is_verified={donation.is_verified}")
             donation.save()
             logger.info(f"После сохранения: is_verified={donation.is_verified}")
@@ -148,3 +149,19 @@ def verify_receipt(donation_id):
         return False, f"Ошибка при проверке чека: {str(e)}"
     finally:
         logger.info(f"Завершение verify_receipt для id: {donation_id}")
+
+
+@shared_task
+def delete_old_media_files():
+    media_root = settings.MEDIA_ROOT
+    target_folder = os.path.join(media_root, 'checks/')
+    now = datetime.datetime.now()
+    cutoff = now - datetime.timedelta(hours=1)
+
+    for root, dirs, files in os.walk(target_folder):
+        for file in files:
+            file_path = os.path.join(root, file)
+            file_modified_time = datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
+            if file_modified_time < cutoff:
+                os.remove(file_path)
+                logger.info(f'Удален файл: {file_path}')

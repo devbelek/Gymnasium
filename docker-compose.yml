@@ -1,61 +1,100 @@
-version: '3.9'
-
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gimnasium_web:latest
     ports:
       - "8000:8000"
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
-      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
-      - REDIS_URL=${REDIS_URL}
-      - TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
+    env_file: .env
     volumes:
       - .:/app
-      - ./media:/app/media:rw
+      - media_data:/app/media:rw
+    depends_on:
+      - db
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app_network
 
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - "5433:5432"
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-#  db:
-#    image: postgres:13
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#    environment:
-#      - POSTGRES_DB=${DATABASE_NAME}
-#      - POSTGRES_USER=${DATABASE_USER}
-#      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-#      - POSTGRES_HOST=${DATABASE_HOST}
-#      - POSTGRES_PORT=${DATABASE_PORT}
-#    ports:
-#      - "5433:5433"
-#
-#  redis:
-#    image: redis:6
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   celery:
-    build: .
-    command: celery -A Gimnasium worker --pool=solo -l debug
-    depends_on:
-      - web
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
-      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
-      - REDIS_URL=${REDIS_URL}
-      - TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gimnasium_celery:latest
+    command: celery -A Gimnasium worker --pool=gevent --concurrency=1000 -l info
+    env_file: .env
     volumes:
       - .:/app
-      - ./media:/app/media:rw
+      - media_data:/app/media:rw
+    depends_on:
+      - web
+      - db
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - media_data:/app/media:ro
+    depends_on:
+      - web
+    networks:
+      - app_network
 
 volumes:
+  postgres_data:
+  redis_data:
   media_data:
+
+networks:
+  app_network:
+    driver: bridge

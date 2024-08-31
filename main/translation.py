@@ -4,7 +4,7 @@ from .models import *
 
 @register(Olympians)
 class OlympiansTranslationOptions(TranslationOptions):
-    pass
+    fields = ('name_of_olympia',)
 
 
 @register(SuccessfulGraduates)
@@ -14,12 +14,12 @@ class SuccessfulStudentsTranslationOptions(TranslationOptions):
 
 @register(AppealToStudents)
 class AppealToStudentsTranslationOptions(TranslationOptions):
-    fields = ('title', 'text')
+    fields = ('title', 'content')
 
 
 @register(Graduates)
 class GraduatesTranslationOptions(TranslationOptions):
-    pass
+    fields = ('ort',)  # Добавляем поле, если оно должно быть переведено
 
 
 @register(News)

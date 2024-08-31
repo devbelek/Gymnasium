@@ -1,8 +1,13 @@
-FROM python:3.12
+FROM python:3.11-slim-buster as builder
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     libgl1-mesa-glx \
     libglib2.0-0 \
     tesseract-ocr \
@@ -11,30 +16,40 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/usr/bin:${PATH}"
+ENV PATH="/usr/bin:/usr/local/bin:${PATH}"
 ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
 
 RUN mkdir -p $TESSDATA_PREFIX && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/rus.traineddata -O $TESSDATA_PREFIX/rus.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata -O $TESSDATA_PREFIX/eng.traineddata
-
-RUN tesseract --version && \
-    ls -l $TESSDATA_PREFIX
+    wget -q https://github.com/tesseract-ocr/tessdata_best/raw/main/rus.traineddata -O $TESSDATA_PREFIX/rus.traineddata && \
+    wget -q https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata -O $TESSDATA_PREFIX/eng.traineddata
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV PYTHONUNBUFFERED=1
+RUN mkdir -p /app/media && chmod -R 777 /app/media
 
-RUN mkdir -p /app/media && \
-    chmod -R 777 /app/media
+# Финальный этап
+FROM python:3.11-slim-buster
+
+WORKDIR /app
+
+# Копируем приложение
+COPY --from=builder /app /app
+
+# Копируем установленные Python-пакеты и исполняемые файлы
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY --from=builder /usr/local/lib /usr/local/lib
+
+# Копируем дополнительные необходимые каталоги
+COPY --from=builder /usr/share /usr/share
+COPY --from=builder /usr/lib /usr/lib
+
+ENV PYTHONUNBUFFERED=1
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata
+ENV PATH="/usr/local/bin:${PATH}"
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py shell -c \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='root').exists() or User.objects.create_superuser('root', 'root@example.com', 'root')\" && python manage.py runserver 0.0.0.0:8000"]
-
-RUN echo "TESSDATA_PREFIX=$TESSDATA_PREFIX" && \
-    ls -l $TESSDATA_PREFIX && \
-    tesseract --list-langs
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "Gimnasium.wsgi:application"]

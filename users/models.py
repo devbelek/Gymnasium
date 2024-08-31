@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 from rest_framework.exceptions import ValidationError
+from loguru import logger
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True, related_name='profile')
     avatar = models.ImageField(upload_to='avatars/', blank=True, verbose_name='Аватар')
     about = models.CharField(max_length=100, blank=True, null=True, verbose_name='О себе')
 
@@ -14,6 +15,17 @@ class UserProfile(models.Model):
     class Meta:
         verbose_name = "Личные кабинеты пользователей"
         verbose_name_plural = "Личные кабинеты пользователей"
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            logger.info(f"Создание нового профиля пользователя: {self.user.username}")
+        else:
+            logger.info(f"Обновление профиля пользователя: {self.user.username}")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        logger.info(f"Удаление профиля пользователя: {self.user.username}")
+        super().delete(*args, **kwargs)
 
 
 class Comment(models.Model):
@@ -46,6 +58,17 @@ class Comment(models.Model):
         if sum(bool(x) for x in [self.our_achievements, self.news, self.successful_graduates]) != 1:
             raise ValidationError('Комментарий должен быть связан только с одной категорией постов.')
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            logger.info(f"Создание комментария от пользователя: {self.author.username}")
+        else:
+            logger.info(f"Обновление комментария (ID: {self.pk}) от пользователя: {self.author.username}")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        logger.info(f"Удаление комментария (ID: {self.pk}) от пользователя: {self.author.username}")
+        super().delete(*args, **kwargs)
+
 
 class CommentReply(models.Model):
     comment = models.ForeignKey(Comment, related_name='replies', on_delete=models.CASCADE, verbose_name='Комментарий')
@@ -61,6 +84,17 @@ class CommentReply(models.Model):
     def __str__(self):
         return f'Ответ от {self.author.username}'
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            logger.info(f"Создание ответа от пользователя: {self.author.username} на комментарий ID: {self.comment.id}")
+        else:
+            logger.info(f"Обновление ответа (ID: {self.pk}) от пользователя: {self.author.username}")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        logger.info(f"Удаление ответа (ID: {self.pk}) от пользователя: {self.author.username}")
+        super().delete(*args, **kwargs)
+
 
 class Like(models.Model):
     comment = models.ForeignKey(Comment, related_name='likes', on_delete=models.CASCADE, verbose_name='Комментарий')
@@ -73,6 +107,15 @@ class Like(models.Model):
 
     def __str__(self):
         return f'Лайк от {self.user.username} на комментарий {self.comment.id}'
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            logger.info(f"Пользователь {self.user.username} поставил лайк на комментарий ID: {self.comment.id}")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        logger.info(f"Пользователь {self.user.username} удалил лайк с комментария ID: {self.comment.id}")
+        super().delete(*args, **kwargs)
 
 
 class Donation(models.Model):
@@ -90,6 +133,17 @@ class Donation(models.Model):
     class Meta:
         verbose_name = "Не подтвержденные переводы средств"
         verbose_name_plural = "Не подтвержденные переводы средств"
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            logger.info(f"Пользователь {self.user.username} сделал пожертвование на сумму {self.amount} сом.")
+        else:
+            logger.info(f"Обновление пожертвования ID: {self.pk} от пользователя {self.user.username}. Статус подтверждения: {self.is_verified}")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        logger.info(f"Удаление пожертвования ID: {self.pk} от пользователя {self.user.username}")
+        super().delete(*args, **kwargs)
 
 
 class ConfirmedDonation(models.Model):
@@ -109,5 +163,13 @@ class ConfirmedDonation(models.Model):
         verbose_name = "Подтвержденные переводы средств"
         verbose_name_plural = "Подтвержденные переводы средств"
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            logger.info(f"Пожертвование ID: {self.donation.id} пользователя {self.user.username} подтверждено.")
+        else:
+            logger.info(f"Обновление подтвержденного пожертвования ID: {self.pk} пользователя {self.user.username}")
+        super().save(*args, **kwargs)
 
-
+    def delete(self, *args, **kwargs):
+        logger.info(f"Удаление подтвержденного пожертвования ID: {self.pk} пользователя {self.user.username}")
+        super().delete(*args, **kwargs)
