@@ -1,25 +1,39 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import *
+from .models import (
+    SuccessfulGraduates,
+    AppealToStudents,
+    News,
+    OurAchievements,
+    Teachers,
+    ThanksNoteFromGraduates,
+    ThanksNoteFromStudents,
+)
+from secondary.models import NamesOfOlympia
 
 
-@register(Olympians)
-class OlympiansTranslationOptions(TranslationOptions):
-    fields = ('name_of_olympia',)
+@register(NamesOfOlympia)
+class ThanksNoteFromGraduatesTranslationOptions(TranslationOptions):
+    fields = ('choosing', )
+
+
+@register(ThanksNoteFromGraduates)
+class ThanksNoteFromGraduatesTranslationOptions(TranslationOptions):
+    fields = ('title', 'content',)
+
+
+@register(ThanksNoteFromStudents)
+class ThanksNoteFromStudentsTranslationOptions(TranslationOptions):
+    fields = ('title', 'content',)
 
 
 @register(SuccessfulGraduates)
-class SuccessfulStudentsTranslationOptions(TranslationOptions):
+class SuccessfulGraduatesTranslationOptions(TranslationOptions):
     fields = ('content',)
 
 
 @register(AppealToStudents)
 class AppealToStudentsTranslationOptions(TranslationOptions):
     fields = ('title', 'content')
-
-
-@register(Graduates)
-class GraduatesTranslationOptions(TranslationOptions):
-    fields = ('ort',)  # Добавляем поле, если оно должно быть переведено
 
 
 @register(News)

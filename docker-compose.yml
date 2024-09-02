@@ -1,100 +1,97 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: gimnasium_web:latest
-    ports:
-      - "8000:8000"
-    env_file: .env
+    build: .
     volumes:
       - .:/app
-      - media_data:/app/media:rw
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+#    ports:
+#      - "9000:9000"
+    env_file:
+      - .env
     depends_on:
       - db
       - redis
-    deploy:
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-    networks:
-      - app_network
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - REDIS_URL=redis://redis:6379/0
 
   db:
     image: postgres:13-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    env_file: .env
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    env_file:
+      - .env
     environment:
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_DB=${DATABASE_NAME}
-    ports:
-      - "5433:5432"
-    networks:
-      - app_network
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
-    image: redis:6-alpine
+    image: redis:alpine
     volumes:
       - redis_data:/data
-    networks:
-      - app_network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  celery:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: gimnasium_celery:latest
-    command: celery -A Gimnasium worker --pool=gevent --concurrency=1000 -l info
-    env_file: .env
+  celery_worker:
+    build: .
+    command: celery -A Gimnasium worker --loglevel=info --pool=solo
     volumes:
       - .:/app
-      - media_data:/app/media:rw
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    env_file:
+      - .env
     depends_on:
       - web
       - db
       - redis
-    deploy:
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-    networks:
-      - app_network
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - REDIS_URL=redis://redis:6379/0
+
+  celery_beat:
+    build: .
+    command: celery -A Gimnasium beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - db
+      - redis
+      - celery_worker
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - REDIS_URL=redis://redis:6379/0
 
   nginx:
     image: nginx:alpine
-    ports:
-      - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - media_data:/app/media:ro
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "80:80"
     depends_on:
       - web
-    networks:
-      - app_network
 
 volumes:
   postgres_data:
   redis_data:
-  media_data:
-
-networks:
-  app_network:
-    driver: bridge
+  static_volume:
+  media_volume:

@@ -2,6 +2,12 @@ from django.contrib.auth.models import User
 from django.db import models
 from rest_framework.exceptions import ValidationError
 from loguru import logger
+from django.core.exceptions import ValidationError
+
+
+def validate_file_extension(value):
+    if not value.name.endswith('.pdf'):
+        raise ValidationError("Можно загружать только файлы в формате PDF.")
 
 
 class UserProfile(models.Model):
@@ -123,7 +129,7 @@ class Donation(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма(сом)')
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     comment = models.CharField(max_length=300, blank=True, null=True)
-    confirmation_file = models.FileField(upload_to='checks/%Y/%m/%d/', blank=False, verbose_name='Квитанция о переводе')
+    confirmation_file = models.FileField(upload_to='checks/%Y/%m/%d/', blank=False, validators=[validate_file_extension], verbose_name='Квитанция о переводе')
     is_verified = models.BooleanField(default=False, verbose_name='Статус подтверждения')
     verification_message = models.TextField(blank=True)
 

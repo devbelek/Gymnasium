@@ -57,7 +57,7 @@ class AdministratorTypes(models.Model):
 
 
 class NamesOfOlympia(models.Model):
-    choosing = models.CharField(max_length=20, blank=False, unique=True, verbose_name='Выбор')
+    choosing = models.CharField(max_length=20, blank=False, unique=True, verbose_name='Название олимпиады')
 
     def __str__(self):
         return self.choosing

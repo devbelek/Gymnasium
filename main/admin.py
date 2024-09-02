@@ -6,17 +6,40 @@ from .utils import generate_csv_file, generate_excel_file
 
 admin.site.register(Contacts)
 admin.site.register(Graduates)
-admin.site.register(ThanksNoteFromGraduates)
-admin.site.register(ThanksNoteFromStudents)
 admin.site.register(SchoolParliament)
 admin.site.register(GimnasiumClass)
 admin.site.register(Gallery)
+admin.site.register(Olympians)
 
 
-@admin.register(Olympians)
-class OlympiansAdmin(admin.ModelAdmin):
-    list_display = ('student', 'name_of_olympia')
-    fields = ('student', 'name_of_olympia')
+@admin.register(ThanksNoteFromGraduates)
+class ThanksNoteFromGraduatesAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content',)
+
+    class Media:
+        js = (
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js',
+        )
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
+
+
+@admin.register(ThanksNoteFromStudents)
+class ThanksNoteFromStudentsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content',)
+
+    class Media:
+        js = (
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js',
+        )
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
 
 
 @admin.register(SuccessfulGraduates)
@@ -80,16 +103,6 @@ class StudentsAdmin(admin.ModelAdmin):
 
     download_excel.short_description = 'Скачать список студентов в формате Excel'
 
-    class Media:
-        js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
-            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
-            'modeltranslation/js/tabbed_translation_fields.js',
-        )
-        css = {
-            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
-        }
-
 
 @admin.register(OurAchievements)
 class OurAchievementsAdmin(TranslationAdmin):
@@ -108,7 +121,7 @@ class OurAchievementsAdmin(TranslationAdmin):
 
 @admin.register(Teachers)
 class TeachersAdmin(TranslationAdmin):
-    list_display = ("name", "surname", "experience", "subject")
+    list_display = ('subject', 'education', 'successes')
 
     class Media:
         js = (

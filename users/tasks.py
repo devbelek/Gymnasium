@@ -3,57 +3,18 @@ from PIL import Image
 import pdf2image
 import re
 from .models import Donation
-import cv2
-import easyocr
-from django.db import transaction
-from loguru import logger
 import os
 import datetime
 from celery import shared_task
 from django.conf import settings
+from loguru import logger
+from django.db import transaction
 
-os.environ['TESSDATA_PREFIX'] = '/opt/homebrew/share/tessdata'
-pytesseract.pytesseract.tesseract_cmd = r'/opt/homebrew/bin/tesseract'
+# os.environ['TESSDATA_PREFIX'] = '/opt/homebrew/share/tessdata'
+# pytesseract.pytesseract.tesseract_cmd = r'/opt/homebrew/bin/tesseract'
 
-# os.environ['TESSDATA_PREFIX'] = '/usr/share/tesseract-ocr/tessdata'
-# pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
-
-
-def preprocess_image(image_path):
-    try:
-        image = cv2.imread(image_path)
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        _, threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-        processed_path = image_path.replace('.', '_processed.')
-        cv2.imwrite(processed_path, threshold)
-        logger.info(f"Обработанное изображение сохранено: {processed_path}")
-        return processed_path
-    except Exception as e:
-        logger.error(f"Ошибка при обработке изображения: {str(e)}")
-        return image_path
-
-
-def extract_text_from_image_tesseract(image_path):
-    try:
-        processed_path = preprocess_image(image_path)
-        text = pytesseract.image_to_string(Image.open(processed_path), lang='rus')
-        logger.info(f"Текст Tesseract: {text}")
-        return text
-    except Exception as e:
-        logger.error(f"Ошибка Tesseract: {str(e)}")
-        return ""
-
-
-def extract_text_from_image_easyocr(image_path):
-    try:
-        reader = easyocr.Reader(['ru'])
-        result = reader.readtext(image_path)
-        text = ' '.join([text for _, text, _ in result])
-        logger.info(f"Текст EasyOCR: {text}")
-        return text
-    except Exception as e:
-        logger.error(f"Ошибка EasyOCR: {str(e)}")
-        return ""
+os.environ['TESSDATA_PREFIX'] = '/usr/share/tesseract-ocr/tessdata'
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 
 def extract_text_from_pdf(pdf_path):
@@ -117,9 +78,7 @@ def verify_receipt(donation_id):
             if file_path.lower().endswith('.pdf'):
                 text = extract_text_from_pdf(file_path)
             else:
-                text_tesseract = extract_text_from_image_tesseract(file_path)
-                text_easyocr = extract_text_from_image_easyocr(file_path)
-                text = text_tesseract if len(text_tesseract) > len(text_easyocr) else text_easyocr
+                return False, "Файл не является PDF"
 
             logger.info(f"Извлеченный текст: {text}")
             try:
