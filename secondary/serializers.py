@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia, Contacts
+from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia, Contacts, AboutUs
 
 
 class NameOfGradesSerializer(serializers.ModelSerializer):
@@ -17,6 +17,12 @@ class AdministratorTypesSerializer(serializers.ModelSerializer):
 class NamesOfOlympiaSerializer(serializers.ModelSerializer):
     class Meta:
         model = NamesOfOlympia
+        exclude = ['id']
+
+
+class AboutUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AboutUs
         exclude = ['id']
 
 
