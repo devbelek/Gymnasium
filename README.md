@@ -42,8 +42,8 @@ DRF
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/ваш\_репозиторий.git
-cd ваш_репозиторий
+git clone [https://github.com/devbelek/Gymnasium.git]
+cd Gimnasium
 ```
 
 2. Настройте файл `.env`. В проекте есть пример файла конфигурации `.env.EXAMPLE`, который поможет вам создать собственный файл `.env`.
