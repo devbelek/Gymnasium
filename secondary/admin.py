@@ -1,12 +1,16 @@
 from django.contrib import admin
-from .models import AdministratorTypes, NameOfGrades, NamesOfOlympia
+from modeltranslation.admin import TranslationAdmin
+
+from .models import AdministratorTypes, NameOfGrades, NamesOfOlympia, AboutUs, Contacts
 
 admin.site.register(NameOfGrades)
 admin.site.register(AdministratorTypes)
+admin.site.register(AboutUs)
+admin.site.register(Contacts)
 
 
 @admin.register(NamesOfOlympia)
-class NamesOfOlympiaAdmin(admin.ModelAdmin):
+class NamesOfOlympiaAdmin(TranslationAdmin):
     list_display = ('choosing', )
 
     class Media:

@@ -57,11 +57,6 @@ class GimnasiumClassViewSet(BaseViewSet):
     serializer_class = GimnasiumClassSerializer
 
 
-class ContactsViewSet(BaseViewSet):
-    queryset = Contacts.objects.all()
-    serializer_class = ContactsSerializer
-
-
 class StudentsViewSet(StudentRelatedViewSet):
     queryset = Students.objects.select_related('school_class', 'olympian_status',
                                                'administrator_status').prefetch_related('classroom_teacher')

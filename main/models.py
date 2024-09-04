@@ -357,28 +357,3 @@ class Teachers(PersonModel, ImageModel):
     def __str__(self):
         return f"Учитель: {self.name} {self.surname} - Предмет: {self.subject}"
 
-
-class Contacts(models.Model):
-    phone_number = models.CharField(max_length=30, unique=True, null=True, verbose_name=_('Номер телефона(+996)'))
-    address = models.CharField(max_length=200, unique=True, null=True, verbose_name=_('Адрес'))
-    instagram = models.URLField(null=True, verbose_name=_('Instagram'))
-    youtube = models.URLField(null=True, verbose_name=_('Youtube'))
-    telegram = models.URLField(null=True, verbose_name=_('Telegram'))
-
-    class Meta:
-        verbose_name = _("Контакты")
-        verbose_name_plural = _("Контакты")
-
-    def __str__(self):
-        return 'Контакты'
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            logger.info("Создание новой записи контактов")
-        else:
-            logger.info("Обновление записи контактов")
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        logger.info("Удаление записи контактов")
-        super().delete(*args, **kwargs)

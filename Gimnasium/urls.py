@@ -10,8 +10,8 @@ urlpatterns = ([
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('main.urls')),
-    path('secondary/', include('secondary.urls')),
-    path('users/', include('users.urls')),
+    path('api/', include('secondary.urls')),
+    path('api/', include('users.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
 ])
                # + debug_toolbar_urls()

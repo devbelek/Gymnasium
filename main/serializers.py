@@ -78,11 +78,6 @@ class OlympiansSerializer(serializers.ModelSerializer):
         return NamesOfOlympiaSerializer(NamesOfOlympia.get_cached(id=obj.name_of_olympia_id)).data
 
 
-class ContactsSerializer(BaseSerializer):
-    class Meta(BaseSerializer.Meta):
-        model = Contacts
-
-
 class TeachersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teachers

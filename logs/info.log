@@ -498,3 +498,346 @@
 2024-09-02 at 23:51:09 | INFO | Завершение verify_receipt для id: 12
 2024-09-02 at 23:51:10 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
 2024-09-03 at 00:31:29 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-03 at 02:20:54 | INFO | Удален файл: /app/media/checks/2024/09/02/P0817095254038.pdf
+2024-09-03 at 02:21:04 | WARNING | Not Found: /
+2024-09-03 at 02:21:09 | WARNING | Гимназия №3 not found when generating links
+2024-09-03 at 02:21:16 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-03 at 02:21:24 | INFO | Пользователь admin_gimnasium инициировал создание пожертвования.
+2024-09-03 at 02:21:24 | INFO | Пользователь admin_gimnasium сделал пожертвование на сумму 90.00 сом.
+2024-09-03 at 02:21:24 | INFO | Запуск задачи проверки чека для пожертвования ID: 13
+2024-09-03 at 02:21:24 | INFO | Пожертвование ID: 13 создано пользователем admin_gimnasium.
+2024-09-03 at 02:21:24 | INFO | Начало verify_receipt для id: 13
+2024-09-03 at 02:21:24 | INFO | Обработка файла: /app/media/checks/2024/09/03/P0817095254038.pdf
+2024-09-03 at 02:21:24 | INFO | Текущее состояние: is_verified=False
+2024-09-03 at 02:21:25 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-03 at 02:21:26 | INFO | Текст из PDF: Детали операции
+
+Дата и время
+
+Итого
+
+Квитанция №Р0817095254038
+
+Перевод по номеру телефона.
+996223230009/ Нурмухаммед
+О./ / Сумма 90.00 КС5
+
+17.08.2024 15:52
+
+     
+        
+ 
+     
+   
+ 
+
+   
+
+ЯМ БАНК
+А ЕРНОЕ ОБД
+К оннаном
+дао,
+
+  
+
+° КОММЕРЧЕСКИЙ
+БАНК
+
+КЫРГЫЗСТАН
+
+По вопросам зачисления обратитесь к отправителю
+
+Телефон службы поддержки 3333
+
+2024-09-03 at 02:21:26 | INFO | Извлеченный текст: Детали операции
+
+Дата и время
+
+Итого
+
+Квитанция №Р0817095254038
+
+Перевод по номеру телефона.
+996223230009/ Нурмухаммед
+О./ / Сумма 90.00 КС5
+
+17.08.2024 15:52
+
+     
+        
+ 
+     
+   
+ 
+
+   
+
+ЯМ БАНК
+А ЕРНОЕ ОБД
+К оннаном
+дао,
+
+  
+
+° КОММЕРЧЕСКИЙ
+БАНК
+
+КЫРГЫЗСТАН
+
+По вопросам зачисления обратитесь к отправителю
+
+Телефон службы поддержки 3333
+
+2024-09-03 at 02:21:26 | INFO | Результат проверки: valid=True, message=Чек прошел проверку
+2024-09-03 at 02:21:26 | INFO | Перед сохранением: is_verified=True
+2024-09-03 at 02:21:26 | INFO | Обновление пожертвования ID: 13 от пользователя admin_gimnasium. Статус подтверждения: True
+2024-09-03 at 02:21:26 | INFO | Создание подтверждённого пожертвования для ID: 13
+2024-09-03 at 02:21:26 | INFO | Пожертвование ID: 13 пользователя admin_gimnasium подтверждено.
+2024-09-03 at 02:21:26 | INFO | После сохранения: is_verified=True
+2024-09-03 at 02:21:26 | INFO | Финальное состояние: is_verified=True
+2024-09-03 at 02:21:26 | INFO | Завершение verify_receipt для id: 13
+2024-09-03 at 02:21:27 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-03 at 02:21:37 | INFO | Запрос списка объектов TeachersViewSet
+2024-09-03 at 02:22:44 | INFO | Создание нового объекта TeachersViewSet
+2024-09-03 at 02:22:44 | INFO | Создание новой записи Teachers: Учитель: Идрис Уланов - Предмет: Математика
+2024-09-03 at 02:22:44 | INFO | Загрузка нового изображения для Teachers
+2024-09-03 at 03:25:10 | INFO | Удален файл: /app/media/checks/2024/09/03/P0817095254038.pdf
+2024-09-03 at 03:52:21 | INFO | Создание нового объекта TeachersViewSet
+2024-09-03 at 03:52:21 | INFO | Создание новой записи Teachers: Учитель: Идрис Уланов - Предмет: Математика
+2024-09-03 at 03:52:21 | INFO | Загрузка нового изображения для Teachers
+2024-09-04 at 04:37:30 | WARNING | Not Found: /
+2024-09-04 at 04:37:34 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:37:57 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:37:59 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:38:03 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:40:16 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:50:24 | ERROR | Signal handler <bound method DjangoFixup.on_import_modules of <celery.fixups.django.DjangoFixup object at 0xffffa55da050>> raised: SyntaxError('invalid syntax', ('/app/main/admin.py', 1, 20, 'from django.contrib\n', 1, 20))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/celery/utils/dispatch/signal.py", line 276, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 100, in on_import_modules
+    self.worker_fixup.validate_models()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 138, in validate_models
+    self.django_setup()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 134, in django_setup
+    django.setup()
+  File "/usr/local/lib/python3.11/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/usr/local/lib/python3.11/site-packages/django/apps/registry.py", line 124, in populate
+    app_config.ready()
+  File "/usr/local/lib/python3.11/site-packages/django/contrib/admin/apps.py", line 27, in ready
+    self.module.autodiscover()
+  File "/usr/local/lib/python3.11/site-packages/django/contrib/admin/__init__.py", line 52, in autodiscover
+    autodiscover_modules("admin", register_to=site)
+  File "/usr/local/lib/python3.11/site-packages/django/utils/module_loading.py", line 58, in autodiscover_modules
+    import_module("%s.%s" % (app_config.name, module_to_search))
+  File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/main/admin.py", line 1
+    from django.contrib
+                       ^
+SyntaxError: invalid syntax
+2024-09-04 at 04:50:24 | ERROR | Signal handler <bound method DjangoFixup.on_import_modules of <celery.fixups.django.DjangoFixup object at 0xffffa8eddb90>> raised: SyntaxError('invalid syntax', ('/app/main/admin.py', 1, 20, 'from django.contrib\n', 1, 20))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/celery/utils/dispatch/signal.py", line 276, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 100, in on_import_modules
+    self.worker_fixup.validate_models()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 138, in validate_models
+    self.django_setup()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 134, in django_setup
+    django.setup()
+  File "/usr/local/lib/python3.11/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/usr/local/lib/python3.11/site-packages/django/apps/registry.py", line 124, in populate
+    app_config.ready()
+  File "/usr/local/lib/python3.11/site-packages/django/contrib/admin/apps.py", line 27, in ready
+    self.module.autodiscover()
+  File "/usr/local/lib/python3.11/site-packages/django/contrib/admin/__init__.py", line 52, in autodiscover
+    autodiscover_modules("admin", register_to=site)
+  File "/usr/local/lib/python3.11/site-packages/django/utils/module_loading.py", line 58, in autodiscover_modules
+    import_module("%s.%s" % (app_config.name, module_to_search))
+  File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/main/admin.py", line 1
+    from django.contrib
+                       ^
+SyntaxError: invalid syntax
+2024-09-04 at 04:54:13 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:54:22 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:54:23 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:59:44 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:59:47 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:59:49 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:59:51 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 04:59:52 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:08:07 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:08:12 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:08:14 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:08:20 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:08:21 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:10:34 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:10:36 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:10:45 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:11:17 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:50:02 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:50:10 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:51:31 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:51:32 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:51:55 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:51:56 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:51:58 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:02 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:03 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:03 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:07 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:08 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:09 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:11 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 05:52:12 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:50:27 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:50:35 | INFO | Запрос списка объектов TeachersViewSet
+2024-09-04 at 06:51:11 | WARNING | Not Found: /api/v1/teachers/
+2024-09-04 at 06:51:24 | WARNING | Not Found: /api/donations
+2024-09-04 at 06:51:35 | WARNING | Not Found: /api/users/donations
+2024-09-04 at 06:51:51 | WARNING | Not Found: /api/donations
+2024-09-04 at 06:52:03 | WARNING | Not Found: /api/teachers/
+2024-09-04 at 06:52:14 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-04 at 06:52:25 | INFO | Пользователь admin_gimnasium инициировал создание пожертвования.
+2024-09-04 at 06:52:25 | INFO | Пользователь admin_gimnasium сделал пожертвование на сумму 90.00 сом.
+2024-09-04 at 06:52:25 | INFO | Запуск задачи проверки чека для пожертвования ID: 14
+2024-09-04 at 06:52:25 | INFO | Пожертвование ID: 14 создано пользователем admin_gimnasium.
+2024-09-04 at 06:52:25 | INFO | Начало verify_receipt для id: 14
+2024-09-04 at 06:52:25 | INFO | Обработка файла: /app/media/checks/2024/09/04/P0817095254038.pdf
+2024-09-04 at 06:52:25 | INFO | Текущее состояние: is_verified=False
+2024-09-04 at 06:52:27 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-04 at 06:52:27 | INFO | Текст из PDF: Детали операции
+
+Дата и время
+
+Итого
+
+Квитанция №Р0817095254038
+
+Перевод по номеру телефона.
+996223230009/ Нурмухаммед
+О./ / Сумма 90.00 КС5
+
+17.08.2024 15:52
+
+     
+        
+ 
+     
+   
+ 
+
+   
+
+ЯМ БАНК
+А ЕРНОЕ ОБД
+К оннаном
+дао,
+
+  
+
+° КОММЕРЧЕСКИЙ
+БАНК
+
+КЫРГЫЗСТАН
+
+По вопросам зачисления обратитесь к отправителю
+
+Телефон службы поддержки 3333
+
+2024-09-04 at 06:52:27 | INFO | Извлеченный текст: Детали операции
+
+Дата и время
+
+Итого
+
+Квитанция №Р0817095254038
+
+Перевод по номеру телефона.
+996223230009/ Нурмухаммед
+О./ / Сумма 90.00 КС5
+
+17.08.2024 15:52
+
+     
+        
+ 
+     
+   
+ 
+
+   
+
+ЯМ БАНК
+А ЕРНОЕ ОБД
+К оннаном
+дао,
+
+  
+
+° КОММЕРЧЕСКИЙ
+БАНК
+
+КЫРГЫЗСТАН
+
+По вопросам зачисления обратитесь к отправителю
+
+Телефон службы поддержки 3333
+
+2024-09-04 at 06:52:27 | INFO | Результат проверки: valid=True, message=Чек прошел проверку
+2024-09-04 at 06:52:27 | INFO | Перед сохранением: is_verified=True
+2024-09-04 at 06:52:27 | INFO | Обновление пожертвования ID: 14 от пользователя admin_gimnasium. Статус подтверждения: True
+2024-09-04 at 06:52:27 | INFO | Создание подтверждённого пожертвования для ID: 14
+2024-09-04 at 06:52:27 | INFO | Пожертвование ID: 14 пользователя admin_gimnasium подтверждено.
+2024-09-04 at 06:52:27 | INFO | После сохранения: is_verified=True
+2024-09-04 at 06:52:27 | INFO | Финальное состояние: is_verified=True
+2024-09-04 at 06:52:27 | INFO | Завершение verify_receipt для id: 14
+2024-09-04 at 06:52:29 | WARNING | Not Found: /api/v1/donations/
+2024-09-04 at 06:52:31 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-04 at 06:52:32 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-04 at 06:53:02 | INFO | Пользователь admin_gimnasium запросил список пожертвований.
+2024-09-04 at 06:53:12 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:53:47 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:53:49 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:53:55 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:53:57 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:53:58 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:54:07 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:54:11 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:54:23 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:54:32 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 06:54:33 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 08:03:51 | INFO | Удален файл: /app/media/checks/2024/09/04/P0817095254038.pdf
+2024-09-04 at 08:11:57 | INFO | Создание нового профиля пользователя: admin
+2024-09-04 at 08:11:57 | INFO | Обновление профиля пользователя: admin
+2024-09-04 at 08:12:31 | INFO | Обновление профиля пользователя: admin
+2024-09-04 at 08:12:31 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 08:12:45 | WARNING | Гимназия №3 not found when generating links
+2024-09-04 at 08:12:49 | INFO | Пользователь admin запросил список пожертвований.
+2024-09-04 at 08:12:58 | WARNING | Not Found: /
+2024-09-04 at 08:13:11 | WARNING | Not Found: /accounts

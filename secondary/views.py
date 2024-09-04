@@ -1,8 +1,9 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import viewsets
-from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia
-from .serializers import NameOfGradesSerializer, AdministratorTypesSerializer, NamesOfOlympiaSerializer
+from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia, Contacts
+from .serializers import NameOfGradesSerializer, AdministratorTypesSerializer, NamesOfOlympiaSerializer, \
+    ContactsSerializer
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 
 
@@ -46,3 +47,9 @@ class NamesOfOlympiaViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(60*15))
     def retrieve(self, *args, **kwargs):
         return super().retrieve(*args, **kwargs)
+
+
+class ContactsViewSet(viewsets.ModelViewSet):
+    queryset = Contacts.objects.all()
+    serializer_class = ContactsSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]

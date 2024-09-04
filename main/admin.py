@@ -4,7 +4,6 @@ from modeltranslation.admin import TranslationAdmin
 from .utils import generate_csv_file, generate_excel_file
 
 
-admin.site.register(Contacts)
 admin.site.register(Graduates)
 admin.site.register(SchoolParliament)
 admin.site.register(GimnasiumClass)
@@ -13,7 +12,7 @@ admin.site.register(Olympians)
 
 
 @admin.register(ThanksNoteFromGraduates)
-class ThanksNoteFromGraduatesAdmin(admin.ModelAdmin):
+class ThanksNoteFromGraduatesAdmin(TranslationAdmin):
     list_display = ('title', 'content',)
 
     class Media:
@@ -28,7 +27,7 @@ class ThanksNoteFromGraduatesAdmin(admin.ModelAdmin):
 
 
 @admin.register(ThanksNoteFromStudents)
-class ThanksNoteFromStudentsAdmin(admin.ModelAdmin):
+class ThanksNoteFromStudentsAdmin(TranslationAdmin):
     list_display = ('title', 'content',)
 
     class Media:

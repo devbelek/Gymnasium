@@ -12,6 +12,7 @@ services:
     depends_on:
       - db
       - redis
+      - migration
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       - REDIS_URL=redis://redis:6379/0
@@ -91,6 +92,13 @@ services:
       - "80:80"
     depends_on:
       - web
+
+
+  migration:
+    build: .
+    command: sh -c "python manage.py makemigrations && python manage.py migrate"
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
