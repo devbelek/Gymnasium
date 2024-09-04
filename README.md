@@ -42,7 +42,7 @@ DRF
 
 1. Клонируйте репозиторий:
 ```bash
-git clone [https://github.com/devbelek/Gymnasium.git]
+git clone https://github.com/devbelek/Gymnasium.git
 cd Gimnasium
 ```
 
@@ -70,7 +70,7 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
-Проект будет доступен по адресу `http://localhost:8000\`.
+Проект будет доступен по адресу `http://127.0.0.1:8000\`.
 
 ## Примеры использования
 
@@ -224,8 +224,4 @@ python manage.py test
 ## Вклад
 
 Если вы хотите внести вклад в проект, пожалуйста, создайте pull request с описанием изменений.
-
-## Лицензия
-
-Этот проект лицензирован на условиях MIT License. Смотрите файл `LICENSE` для получения подробной информации.
 
