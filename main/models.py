@@ -315,7 +315,8 @@ class ThanksNoteFromGraduates(ImageModel, TitleModel, ContentModel, TimestampedM
 
 class News(ImageModel, ContentModel, TimestampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Автор'))
-
+    description = models.CharField(max_length=300, verbose_name=_('Описание'))
+    
     class Meta:
         verbose_name = _('Новости')
         verbose_name_plural = _('Новости')
@@ -325,9 +326,15 @@ class News(ImageModel, ContentModel, TimestampedModel):
 
 
 class Gallery(ImageModel, ContentModel):
+    title = models.CharField(max_length=200, verbose_name=_('Заголовок'))
+    url_video = models.URLField(verbose_name=_('Ссылка на видео'), blank=True)
+
     class Meta:
         verbose_name = _('Галерея')
         verbose_name_plural = _('Галерея')
+
+    def __str__(self):
+        return self.title
 
 
 class OurAchievements(ImageModel, ContentModel):
@@ -345,9 +352,9 @@ class Teachers(PersonModel, ImageModel):
         ('От пяти лет', _('Более 5 лет')),
         ('От десяти лет', _('Более 15 лет')),
     ]
-    experience = models.CharField(max_length=50, choices=EXPERIENCE_CHOICES, verbose_name=_('Опыт'))
-    subject = models.CharField(max_length=20, verbose_name=_('Предмет'))
-    education = models.CharField(max_length=200, blank=True, verbose_name=_('Образование'))
+    experience = models.CharField(max_length=200, choices=EXPERIENCE_CHOICES, verbose_name=_('Опыт'))
+    subject = models.CharField(max_length=200, verbose_name=_('Предмет'))
+    education = models.TextField(blank=True, verbose_name=_('Образование'))
     successes = models.TextField(blank=True, verbose_name=_('Успехи'))
 
     class Meta:

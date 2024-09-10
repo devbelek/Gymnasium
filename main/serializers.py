@@ -144,12 +144,13 @@ class ThanksNoteFromGraduatesSerializer(BaseSerializer):
         model = ThanksNoteFromGraduates
 
 
-class NewsSerializer(BaseSerializer):
+class NewsSerializer(serializers.ModelSerializer):
     comments = CommentSerializers(many=True, read_only=True)
     author = serializers.ReadOnlyField(source='author.username')
 
-    class Meta(BaseSerializer.Meta):
+    class Meta:
         model = News
+        fields = '__all__'
 
 
 class GallerySerializer(BaseSerializer):

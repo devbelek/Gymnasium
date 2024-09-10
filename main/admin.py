@@ -7,8 +7,14 @@ from .utils import generate_csv_file, generate_excel_file
 admin.site.register(Graduates)
 admin.site.register(SchoolParliament)
 admin.site.register(GimnasiumClass)
-admin.site.register(Gallery)
 admin.site.register(Olympians)
+
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+        list_display = ('title', 'image', 'content', 'url_video')
+
+
 
 
 @admin.register(ThanksNoteFromGraduates)
@@ -73,7 +79,7 @@ class AppealToStudentsAdmin(TranslationAdmin):
 
 @admin.register(News)
 class NewsAdmin(TranslationAdmin):
-    list_display = ("content",)
+    list_display = ("content", 'description')
     fieldsets = []
 
     class Media:

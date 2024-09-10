@@ -117,7 +117,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "/static",
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -187,8 +187,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day'
+        'anon': '500/day',
+        'user': '5000/day'
     }
 }
 
@@ -231,4 +231,4 @@ CELERY_BEAT_SCHEDULE = {
     }
 }
 
-CACHE_TTL = 60 * 60
+CACHE_TTL = 60 * 1

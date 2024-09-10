@@ -38,7 +38,7 @@ class AppealToStudentsTranslationOptions(TranslationOptions):
 
 @register(News)
 class NewsTranslationOptions(TranslationOptions):
-    fields = ('content',)
+    fields = ('content', 'description')
 
 
 @register(OurAchievements)

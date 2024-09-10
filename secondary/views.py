@@ -1,9 +1,9 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import viewsets
-from .models import NameOfGrades, AdministratorTypes, NamesOfOlympia, Contacts
+from .models import NameOfGrades, AboutUs, AdministratorTypes, NamesOfOlympia, Contacts
 from .serializers import NameOfGradesSerializer, AdministratorTypesSerializer, NamesOfOlympiaSerializer, \
-    ContactsSerializer
+    ContactsSerializer, AboutUsSerializer
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 
 
@@ -52,4 +52,10 @@ class NamesOfOlympiaViewSet(viewsets.ModelViewSet):
 class ContactsViewSet(viewsets.ModelViewSet):
     queryset = Contacts.objects.all()
     serializer_class = ContactsSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class AboutUsViewSet(viewsets.ModelViewSet): 
+    queryset = AboutUs.objects.all() 
+    serializer_class = AboutUsSerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
