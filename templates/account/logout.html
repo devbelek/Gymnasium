@@ -1,15 +1,51 @@
 {% extends "account/base.html" %}
 
-{% block head_title %}Logout{% endblock %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Выход" %}{% endblock %}
 
 {% block content %}
-<h1>Logout</h1>
-<p>Are you sure you want to logout?</p>
-<form method="POST" action="{% url 'account_logout' %}">
+<style>
+  .logout-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .logout-form h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .logout-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .logout-form button:hover {
+    background-color: #c82333;
+  }
+</style>
+
+<div class="logout-form">
+  <h1>{% trans "Выход" %}</h1>
+
+  <p>{% trans 'Вы уверены, что хотите выйти?' %}</p>
+
+  <form method="post" action="{% url 'account_logout' %}">
     {% csrf_token %}
     {% if redirect_field_value %}
-    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
     {% endif %}
-    <button type="submit">Logout</button>
-</form>
+    <button type="submit">{% trans 'Выйти' %}</button>
+  </form>
+</div>
 {% endblock %}
