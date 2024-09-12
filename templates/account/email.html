@@ -1,0 +1,101 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account %}
+
+{% block head_title %}{% trans "Добавить Email" %}{% endblock %}
+
+{% block content %}
+<style>
+    .menu {
+	            max-width: 400px;
+		            margin: 0 auto;
+			            padding: 10px;
+				            background-color: #f4f4f4;
+					            border: 1px solid #ddd;
+						            border-radius: 5px;
+							            margin-bottom: 20px;
+								        }
+
+        .menu ul {
+		        list-style: none;
+			        padding: 0;
+				        margin: 0;
+					    }
+
+	    .menu ul li {
+		            margin-bottom: 10px;
+			        }
+
+	        .menu ul li a {
+			        text-decoration: none;
+				        color: #007bff;
+					        font-weight: bold;
+						    }
+
+		    .menu ul li a:hover {
+			            color: #0056b3;
+				        }
+
+		        .email-form {
+				        max-width: 400px;
+					        margin: 0 auto;
+						        padding: 20px;
+							        background-color: #f8f9fa;
+								        border: 1px solid #ddd;
+									        border-radius: 5px;
+										    }
+
+			    .email-form h1 {
+				            font-size: 24px;
+					            margin-bottom: 20px;
+						            text-align: center;
+							        }
+
+			        .email-form input[type="email"] {
+					        width: 100%;
+						        padding: 12px;
+							        margin-bottom: 10px;
+								        border: 1px solid #ccc;
+									        border-radius: 4px;
+										    }
+
+				    .email-form button[type="submit"] {
+					            width: 100%;
+						            padding: 10px;
+							            background-color: #007bff;
+								            color: white;
+									            border: none;
+										            border-radius: 4px;
+											            cursor: pointer;
+												        }
+
+				        .email-form button[type="submit"]:hover {
+						        background-color: #0056b3;
+							    }
+</style>
+
+<!-- Меню с пунктами -->
+<div class="menu">
+	    <ul>
+		            <li><a href="{% url 'account_email' %}">{% trans "Изменить E-mail" %}</a></li>
+			            <li><a href="{% url 'account_change_password' %}">{% trans "Изменить пароль" %}</a></li>
+				            <li><a href="{% url 'account_logout' %}">{% trans "Выйти" %}</a></li>
+					        </ul>
+</div>
+
+<!-- Форма добавления Email -->
+<div class="email-form">
+	    <h1>{% trans "Добавить Email" %}</h1>
+
+	        <form method="POST" action="{% url 'account_email' %}">
+			        {% csrf_token %}
+				        <div>
+						            <label for="email">{% trans "E-mail" %}:</label>
+							                {{ form.email }}
+									        </div>
+										        <button type="submit">{% trans "Добавить E-mail" %}</button>
+											    </form>
+</div>
+{% endblock %}
+
